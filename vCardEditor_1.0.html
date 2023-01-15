@@ -1,0 +1,352 @@
+<html>
+<head>
+<title>vCard Editor JS</title>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<meta charset="UTF-8">
+<style>
+td, th {
+	border: 1px solid #000;
+	min-width: 200px;
+}
+body {
+	overflow-x: scroll;
+}
+
+</style>
+</head>
+<body>
+  <label for="vcf">Choose a VCF (Virtual Card) Version:</label>
+  <select name="vcf" id="vcf">
+    <option value="2">VCF 2.1</option>
+    <option value="3">VCF 3.0</option>
+    <option value="4">VCF 4.0</option>
+  </select>
+    <input type="file" name="inputfile"
+            id="inputfile">
+    <br>
+   
+    <pre id="output"></pre>
+</body>
+    <script type="text/javascript">
+	
+
+		var namecode = "N:";
+		var emailcode = "EMAIL:";
+		var cell1code = "TEL;CELL:";
+		var cell2code = "TEL;CELL:";
+		var phone1code = "TEL;HOME:";
+		var phone2code = "TEL;HOME:";
+		var phone3code = "TEL;VOICE:";
+		var addressworkcode = "ADR;WORK:";
+		var addresshomecode = "ADR;HOME:";	
+		var photo="PHOTO;ENCODING=BASE64;JPEG:";
+	
+    $("#vcf").change(function () {
+        var selectValue = $(this).val();
+        if (selectValue == 2)
+		{
+		namecode = "N:";
+	    emailcode = "EMAIL:";
+		cell1code = "TEL;CELL:";
+		cell2code = "TEL;CELL:";
+		phone1code = "TEL;HOME:";
+		phone2code = "TEL;HOME:";
+		phone3code = "TEL;VOICE:";
+		addressworkcode = "ADR;WORK:";
+		addresshomecode = "ADR;HOME:";		
+		}
+		if (selectValue == 3)
+		{
+		namecode = "N:";
+	    emailcode = "EMAIL:";
+		cell1code = "TEL;TYPE#CELL:";
+		cell2code = "TEL;TYPE#CELL:";
+		phone1code = "TEL;TYPE#HOME:";
+		phone2code = "TEL;TYPE#HOME:";
+		phone3code = "TEL;TYPE#VOICE:";
+		addressworkcode = "ADR;TYPE#WORK:";
+		addresshomecode = "ADR;TYPE#HOME:";			
+		}
+		if (selectValue == 4)
+		{
+		namecode = "N:";
+	    emailcode = "EMAIL:";
+		cell1code = "TEL;TYPE#CELL:";
+		cell2code = "TEL;TYPE#CELL:";
+		phone1code = "TEL;TYPE#HOME:";
+		phone2code = "TEL;TYPE#HOME:";
+		phone3code = "TEL;TYPE#VOICE:";
+		addressworkcode = "ADR;TYPE#WORK:";
+		addresshomecode = "ADR;TYPE#HOME:";			
+		}
+    });
+
+	// MYVARIABLES
+		var howmanylines;
+		var vcardintoarray;
+		var allnamesarray = [];
+		var currentline;
+		var onlynamesvar = 0;
+		var testoutput="";
+		var buildtable = "";
+		var allphonesarray = [];
+		var allphones2array = [];
+		var allcellsarray = [];
+		var allcells2array = [];
+		var allvoicesarray = [];
+		var alladdresshomearray = [];
+		var alladdressworkarray = [];
+		var allemailarray = [];
+		var allphotosarray = [];
+		var onlyphonesvar = 0;
+		var onlyphones2var = 0;
+		var checksum = 0;
+		var checksum2 = 0;
+		var phonecheck = 0;
+		var phonecheck2 = 0;
+		var myvcard = "";
+		var phone1check = 0;
+		var next = 0;
+		var next2 = 0;
+		var getallphotolines = 0;
+		var photobool = 0;
+		var photochunk = [];
+		
+
+	
+        
+		document.getElementById('inputfile').addEventListener('change', function() {
+        
+		
+		//BEGINNING OF APP     
+       
+
+
+	   var fr=new FileReader();
+            fr.onload=function(){
+                myvcard = fr.result;
+
+		vcardintoarray = myvcard.split(/\r\n|\r|\n/);
+	    howmanylines = myvcard.split(/\r\n|\r|\n/).length;
+
+		
+		// GET ALL NAMES
+		for (i=0; i < howmanylines; i++)
+		{
+		currentline = vcardintoarray[i];
+		
+
+		
+		// GET ALL NAMES NUMBERS
+		if (currentline.startsWith(namecode) == true)
+		{
+			allnamesarray[onlynamesvar] = currentline;
+			onlynamesvar++;
+			checksum = 0;
+			checksum2 = 0;
+			
+			
+            
+	
+	
+			
+		}
+		// GET ALL PHOTOS
+		
+		if (currentline.startsWith(photo) == true)
+		{
+			//var Y = "PHOTO;ENCODING=BASE64;JPEG:";
+			//var X = "END:VCARD";
+			//var Z = currentline.split(Y).pop();
+			
+			
+			//var ss= "<pre>aaaa\nbbb\nccc</pre>ddd";
+			//var arr= ss.match( /<pre[^\0]*?<\/pre>/gm );
+			//alert(arr);     //Working
+			
+			
+			//var stripped = currentline.replace(/[\s\S]+PHOTO;ENCODING=BASE64;JPEG:[\r\n]+/gi, '');
+			//var addressLines = stripped.trim().split(/[\r\n]+/);
+			
+			//var ss=currentline;
+			//var arr=ss.match(/PHOTO;ENCODING=BASE64;JPEG:[^\0]*?END:VCARD/gm);
+			var keka = i;
+			var following = "";
+			while (photobool == 0)
+			{
+			following = vcardintoarray[keka + getallphotolines];
+			photochunk = photochunk + following;
+			if (following.includes("END:VCARD"))
+			photobool = 1;
+			getallphotolines++;
+			}
+			getallphotolines = 0;
+			photobool = 0;
+			var photochunkstring = photochunk.toString();
+			var phase1 = photochunkstring.replace('PHOTO;ENCODING=BASE64;JPEG:','');
+			var phase2 = phase1.replace('END:VCARD','');
+			var phase3 = phase2.replace('/\s/g','');
+			allphotosarray[onlynamesvar - 1] = phase3;
+			photochunk = [];
+
+			//var Z = X.slice(X.indexOf(Y) + Y.length);//var Z = X.replace(new RegExp('.*' + Y), '');
+		}
+
+		//GET ALL EMAILS
+		if (currentline.startsWith(emailcode) == true && checksum == 0)
+		{
+			
+			allemailarray[onlynamesvar - 1] = currentline;
+
+
+
+			
+			
+			
+		}	
+
+		
+		//GET ALL HOME ADDRESSES
+		if (currentline.startsWith(addresshomecode) == true && checksum == 0)
+		{
+			
+			alladdresshomearray[onlynamesvar - 1] = currentline;
+
+
+
+			
+			
+			
+		}	
+
+		//GET ALL WORK ADDRESSES
+		if (currentline.startsWith(addressworkcode) == true && checksum == 0)
+		{
+			
+			alladdressworkarray[onlynamesvar - 1] = currentline;
+
+
+			
+			
+			
+		}			
+		
+		//GET ALL PHONES NUMBERS
+		if (currentline.startsWith(phone1code) == true && checksum == 0)
+		{
+			
+			allphonesarray[onlynamesvar - 1] = currentline;
+			checksum = 1;
+			phone1check = 1;
+
+
+			
+			
+			
+		}
+
+		
+		//GET ALL 2ND PHONES NUMBERS
+		if (currentline.startsWith(phone2code) == true && next == 1)
+		{
+			
+			allphones2array[onlynamesvar - 1] = currentline;
+			next = 0;
+			
+			
+		}
+		
+		//GET ALL VOICE PHONE NUMBERS 
+		if (currentline.startsWith(phone3code) == true)
+		{
+			
+			allvoicesarray[onlynamesvar - 1] = currentline;
+
+
+			
+			
+			
+		}		
+		
+		
+		if (phone1check == 1)
+		{
+		phone1check = 0;
+		next = 1;
+		}
+
+		
+		//GET ALL CELL NUMBERS
+		if (currentline.startsWith(cell1code) == true && checksum2 == 0)
+		{
+			
+			allcellsarray[onlynamesvar - 1] = currentline;
+			phonecheck2 = 1;
+			checksum2 = 1;	
+		}
+
+		//GET ALL CELL 2 NUMBERS
+		if (currentline.startsWith(cell2code) == true && next2 == 1 && phonecheck2 == 0)
+		{
+			
+			allcells2array[onlynamesvar - 1] = currentline;
+			next2 = 0;
+			
+		}
+		
+	    if (phonecheck2 == 1)
+		{
+		phonecheck2 = 0;
+		next2 = 1;
+		}	
+
+		
+		}
+		
+		
+		for (k=0;k < onlynamesvar; k++)
+		{
+	 
+		buildtable = buildtable + "<tr><td>" + 
+		"<img src='data:image/jpeg;base64, " + allphotosarray[k] + "' width='64' height='64' />" + "</td><td>" +
+		allnamesarray[k] + "</td><td>" + 
+		allemailarray[k] + "</td><td>" + 
+		allcellsarray[k] + "</td><td>" + 
+		allcells2array[k] + "</td><td>" + 
+		allphonesarray[k] + "</td><td>" + 	
+		allphones2array[k] + "</td><td>" + 
+		allvoicesarray[k] + "</td><td>" +
+		alladdresshomearray[k] + "</td><td>" + 
+		alladdressworkarray[k] +  		
+		"</td></tr>";
+		
+		
+		}
+		
+		document.getElementById("output").innerHTML = "<table><tr><th>AVATAR</th><th>NAME</th><th>EMAIL</th><th>CELL</th><th>CELL #2</th><th>PHONE #1</th><th>PHONE #2</th><th>PHONE #3</th><th>ADDRESS HOME</th><th>ADDRESS WORK</th></tr>" + buildtable + "</table>";
+		
+		//END OF APP
+			}
+		fr.readAsText(this.files[0]);	
+
+        })
+
+     /*
+	 
+	     <script type="text/javascript">
+        document.getElementById('inputfile')
+            .addEventListener('change', function() {
+              
+            var fr=new FileReader();
+            fr.onload=function(){
+                document.getElementById('output')
+                        .textContent=fr.result;
+            }
+              
+            fr.readAsText(this.files[0]);
+        })
+		
+		*/
+    </script>
+    </script>
+</html>
