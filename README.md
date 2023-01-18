@@ -8,7 +8,7 @@ Features:<br><br>
 -Most common information fields<br>
 -Supports version 2.1, 3.0, 4.0 vcf<br>
 -Automatic version detection<br>
--Unlimited number of Cards (As much table data as your browser supports)
+-Unlimited number of Cards (As much table data as your browser supports)<br>
 -Profile Photo support: Both URLs and BASE64<br><br>
 
 Coming Soon:<br><br>
