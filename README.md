@@ -1,4 +1,4 @@
-# VCF-Virtual-Card-Viewer-JS
+# VCF-Virtual-Card-Viewer-JS 7.2 
 A VCF (Virtual Card Format) Viewer/Editor in Javascript<br><br>
 
 ![FireShot Capture 007 - vCard (VCF) Viewer_Editor JS 7 2 FINAL_ - localhost](https://user-images.githubusercontent.com/16135535/213307992-6dca0b55-cbc9-479e-9a0b-4b90fbf1250c.png)
