@@ -16,11 +16,12 @@ Features:<br><br>
 -Save your edited VCF card(s)<br>
 -Add New Contact Entries<br>
 -Ability to add/update profile pictures<br>
+-Ability to sort table alphabetically<br>
 -Option to delete any contacts<br><br>
 
 Coming Soon:<br><br>
 
--Create a vcf from scratch!!!
+-Create a vcf from scratch!!!<br><br>
 
 Thank you!<br><br>
 
