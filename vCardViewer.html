@@ -1,0 +1,786 @@
+<html>
+<head>
+<title>vCard (VCF) Viewer/Editor JS 7.2 FINAL_</title>
+<script src="js/jquery-3.6.3.min.js"></script>
+<script src="js/sorttable.js"></script>
+<meta charset="UTF-8">
+<style>
+td, th {
+	border: 1px solid #aaa;
+	word-break:break-all;
+	width: 64px !important;
+	max-width: 64px !important;
+	min-width: 64px !important;
+	color: #111;
+}
+
+tr:nth-child(even) {
+	background: #f6f6f6;
+}
+
+tr:nth-child(odd) {
+	background: #ffffff;
+}
+
+#photo td {
+
+}
+body {
+	overflow-x: scroll;
+}
+
+table {
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	top: 128px;
+	position: absolute;
+}
+
+table.sortable thead {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+  <label for="vcf" style="left:0;right:0;margin: 0 auto;text-align:center;position: absolute;top: 0;">Choose a VCF (Virtual Card Format: 2.1, 3.0, 4.0 Supported!):</label>
+    <input type="file" name="inputfile"
+            id="inputfile" style="position: absolute; top: 32px;left: 50%;transform: translateX(-50%);">
+	<div style="left: 50%;transform: translateX(-50%);width:360px; top: 64px;position: absolute;height: 50px;">
+	    <button style="top: 64px; width: 120px;height: 50px;float:right;" onclick="saveit();">Save Edited VCF File</button>
+		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="newContact();">Create New Contact</button>
+		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="delContact();">Delete Contact</button>
+		</div>
+    <br>
+<script>
+
+function newContact() {
+keeptrackofnewcontacts++;
+var tableRow = document.getElementById("myTable");
+var row = tableRow.insertRow(-1);
+var cell1 = row.insertCell(0);
+var cell2 = row.insertCell(1);
+var cell3 = row.insertCell(2);
+var cell4 = row.insertCell(3);
+var cell5 = row.insertCell(4);
+var cell6 = row.insertCell(5);
+var cell7 = row.insertCell(6);
+var cell8 = row.insertCell(7);
+var cell9 = row.insertCell(8);
+var cell10 = row.insertCell(9);
+var cell11 = row.insertCell(10);
+var cell12 = row.insertCell(11);
+var cell13 = row.insertCell(12);
+var cell14 = row.insertCell(13);
+
+cell1.innerHTML = "<td id='photo' contenteditable='false'>" + 
+		"<input type='file' style='max-width:64px !important;' onchange='changephoto(this.files[0]," + keeptrackofnewcontacts +");' accept='image/*'><img src='" + allphotosarray[keeptrackofnewcontacts] + "' width='64' height='64' id='pic" + keeptrackofnewcontacts + "'>" + "</td>";
+cell2.innerHTML = "<td  contenteditable='true' style='background: linear-gradient(-135deg,#000 5px,#fff 0); color: #000 !important;'>" + allnamesarray[keeptrackofnewcontacts] + "</td>";
+cell3.innerHTML = "<td contenteditable='true' >" + alltitles[keeptrackofnewcontacts] + "</td>";
+cell4.innerHTML = "<td contenteditable='true' >" + allgenders[keeptrackofnewcontacts] + "</td>";
+cell5.innerHTML = "<td contenteditable='true' >" + allbirthdays[keeptrackofnewcontacts] + "</td>";
+cell6.innerHTML = "<td contenteditable='true' >" + allemailarray[keeptrackofnewcontacts] + "</td>";
+cell7.innerHTML = "<td contenteditable='true' >" + allurls[keeptrackofnewcontacts] + "</td>";
+cell8.innerHTML = "<td contenteditable='true' >" + allcellsarray[keeptrackofnewcontacts] + "</td>"; 
+cell9.innerHTML = "<td contenteditable='true' >" + allphonesarray[keeptrackofnewcontacts] + "</td>";
+cell10.innerHTML = "<td contenteditable='true' >" + allphones2array[keeptrackofnewcontacts] + "</td>";
+cell11.innerHTML = "<td contenteditable='true' >" + allvoicesarray[keeptrackofnewcontacts] + "</td>";
+cell12.innerHTML = "<td contenteditable='true' >" + alladdresshomearray[keeptrackofnewcontacts] + "</td>";
+cell13.innerHTML = "<td contenteditable='true' >" + alladdressworkarray[keeptrackofnewcontacts] + "</td>";
+cell14.innerHTML = "<td contenteditable='true' >" + keeptrackofnewcontacts + "</td>";
+
+$("td").click(function(){
+    if($(this).attr("contentEditable") == true){
+        $(this).attr("contentEditable","false");
+    } else {
+        $(this).attr("contentEditable","true");
+    }
+})
+
+}
+
+
+</script>
+    <pre id="output"></pre>
+</body>
+    <script type="text/javascript">
+	
+
+		var namecode = "N:";
+		var emailcode = "EMAIL";
+		var cell1code = "TEL;CELL";
+		var cell2code = "TEL;CELL";
+		var phone1code = "TEL;HOME";
+		var phone2code = "TEL;WORK";
+		var phone3code = "TEL;VOICE";
+		var addressworkcode = "ADR;WORK";
+		var addresshomecode = "ADR;HOME";	
+		var birthday = "BDAY:";
+		var gender = "GENDER:";
+		var title = "TITLE:";
+		var url = "URL";
+		var photo="PHOTO";
+	    var following = "";
+
+
+
+
+	// MYVARIABLES
+		var howmanylines = 0;
+		var vcardintoarray;
+		var allnamesarray = [];
+		var currentline;
+		var onlynamesvar = 0;
+		var testoutput="";
+		var buildtable = "";
+		var allphonesarray = [];
+		var allphones2array = [];
+		var allcellsarray = [];
+		var allcells2array = [];
+		var allvoicesarray = [];
+		var alladdresshomearray = [];
+		var alladdressworkarray = [];
+		var allemailarray = [];
+		var allphotosarray = [];
+		var onlyphonesvar = 0;
+		var onlyphones2var = 0;
+		var checksum = 0;
+		var checksum2 = 0;
+		var phonecheck = 0;
+		var phonecheck2 = 0;
+		var myvcard = "";
+		var phone1check = 0;
+		var next = 0;
+		var next2 = 0;
+		var getallphotolines = 0;
+		var photobool = 0;
+		var photochunk = [];
+        var allbirthdays = [];
+		var alltitles = [];
+		var allgenders = [];
+		var allurls = [];
+		var skipphotoline1 = 0;
+		var skipphotolinelast = 0;
+		var upper = [];
+		var keeptrackofnewcontacts = 0;
+
+	
+        
+		document.getElementById('inputfile').addEventListener('change', function() {
+        
+		
+		//BEGINNING OF APP     
+       
+
+
+	   var fr=new FileReader();
+            fr.onload=function(){
+                myvcard = fr.result;
+
+		vcardintoarray = myvcard.split(/\r\n|\r|\n/);
+		
+		upper = vcardintoarray.map(element => {
+			return element.toUpperCase();
+		});
+	    howmanylines = myvcard.split(/\r\n|\r|\n/).length;
+
+		
+		// GET ALL NAMES
+		for (i=0; i < howmanylines; i++)
+		{
+		
+		
+		currentline = upper[i];
+		if (currentline.startsWith("BEGIN:"))
+		{
+		          
+		onlynamesvar++;	
+		if (currentline.startsWith(emailcode) == false)
+		allemailarray[onlynamesvar] = " ";
+		if (currentline.startsWith(addresshomecode) == false)
+		alladdresshomearray[onlynamesvar] = " ";
+		if (currentline.startsWith(addressworkcode) == false)
+		alladdressworkarray[onlynamesvar] = " ";
+		if (currentline.startsWith(phone1code) == false)
+		allphonesarray[onlynamesvar] = " ";
+		if (currentline.startsWith(phone2code) == false)
+		allphones2array[onlynamesvar] = " ";
+		if (currentline.startsWith(phone3code) == false)
+		allvoicesarray[onlynamesvar] = " ";
+		if (currentline.startsWith(cell1code) == false)
+		allcellsarray[onlynamesvar] = " ";
+		if (currentline.startsWith(cell2code) == false)
+		allcells2array[onlynamesvar] = " ";	
+		if (currentline.startsWith(gender) == false)
+		allgenders[onlynamesvar] = " ";
+		if (currentline.startsWith(title) == false)
+		alltitles[onlynamesvar] = " ";
+		if (currentline.startsWith(birthday) == false)
+		allbirthdays[onlynamesvar] = " ";
+		if (currentline.startsWith(url) == false)
+		allurls[onlynamesvar] = " ";		
+			
+  
+		}
+
+		// GET VCF VERSION TYPE
+        if (currentline.startsWith("VERSION:"))
+		{
+		var getversionexact = currentline.replace("VERSION:", "");
+		if (getversionexact == "2.1")
+		{
+		namecode = "N:";
+	    emailcode = "EMAIL";
+		cell1code = "TEL;CELL";
+		cell2code = "TEL;CELL";
+		phone1code = "TEL;HOME";
+		phone2code = "TEL;WORK";
+		phone3code = "TEL;VOICE";
+		addressworkcode = "ADR;WORK";
+		addresshomecode = "ADR;HOME";		
+		}
+		if (getversionexact == "3.0")
+		{
+		namecode = "N:";
+	    emailcode = "EMAIL";
+		cell1code = "TEL;TYPE=CELL";
+		cell2code = "TEL;TYPE=CELL";
+		phone1code = "TEL;TYPE=HOME";
+		phone2code = "TEL;TYPE=WORK";
+		phone3code = "TEL;TYPE=VOICE";
+		addressworkcode = "ADR;TYPE=WORK";
+		addresshomecode = "ADR;TYPE=HOME";			
+		}
+		if (getversionexact == "4.0")
+		{
+		namecode = "N:";
+	    emailcode = "EMAIL";
+		cell1code = "TEL;TYPE#CELL";
+		cell2code = "TEL;TYPE#CELL";
+		phone1code = "TEL;TYPE#HOME";
+		phone2code = "TEL;TYPE#WORK";
+		phone3code = "TEL;TYPE#VOICE";
+		addressworkcode = "ADR;TYPE#WORK";
+		addresshomecode = "ADR;TYPE#HOME";			
+		}
+		}
+		
+		// GET ALL NAMES NUMBERS
+		if (currentline.startsWith(namecode) == true)
+		{
+			var nametemp = currentline.replace('N:', '');
+			var nametemp2 = nametemp.replaceAll(';', ' ');
+			allnamesarray[onlynamesvar] = nametemp2;
+		
+	
+	
+			
+		}
+		// GET ALL PHOTOS
+		
+		if (currentline.startsWith(photo) == true)
+		{
+			//var Y = "PHOTO;ENCODING=BASE64;JPEG:";
+			//var X = "END:VCARD";
+			//var Z = currentline.split(Y).pop();
+			
+			
+			//var ss= "<pre>aaaa\nbbb\nccc</pre>ddd";
+			//var arr= ss.match( /<pre[^\0]*?<\/pre>/gm );
+			//alert(arr);     //Working
+			
+			
+			//var stripped = currentline.replace(/[\s\S]+PHOTO;ENCODING=BASE64;JPEG:[\r\n]+/gi, '');
+			//var addressLines = stripped.trim().split(/[\r\n]+/);
+			
+			//var ss=currentline;
+			//var arr=ss.match(/PHOTO;ENCODING=BASE64;JPEG:[^\0]*?END:VCARD/gm);
+			var keka = i;
+			following = "";
+			if (!currentline.includes('ENCODING'))
+			{
+			while (photobool == 0)
+			{
+			following = vcardintoarray[keka + getallphotolines];
+			photochunk = photochunk + following;
+			//if (following.includes('END:VCARD'))
+
+			
+			photobool = 1;
+			getallphotolines++;
+	        }
+			getallphotolines = 0;
+			photobool = 0;
+			var photochunkstring = photochunk.toString();
+			var b4 = photochunkstring.split(':')[0];
+			var phase1 = photochunkstring.replace(b4,'');
+			var phase2 = phase1.replace(":", "");
+			//var phase2 = phase1.replace('END:VCARD','');
+			//var phase3 = phase2.replace('/\s/g','');
+			allphotosarray[onlynamesvar] = phase2;
+			photochunk = [];
+			}
+			
+			
+			
+			if (currentline.includes('ENCODING'))
+			{
+			while (photobool == 0)
+			{
+			following = vcardintoarray[keka + getallphotolines];
+			if (skipphotoline1 > 0) 
+			if (following.includes(';') | following.includes(':'))
+			{
+			skipphotolinelast = 1;
+			photobool = 1;
+			}
+			if (skipphotolinelast == 0)
+			{
+			photochunk = photochunk + following;
+			var photochunktemp = photochunk.toString();
+			}
+			//if (following.includes('END:VCARD'))
+	
+
+    
+			getallphotolines++;
+			skipphotoline1++;
+	        }
+			getallphotolines = 0;
+			photobool = 0;
+			var photochunkstring = photochunk.toString();
+			var b4 = photochunkstring.split(':')[0];
+			var phase1 = photochunkstring.replace(b4,'');
+			var phase2 = phase1.replace(":", "");
+			var phase3 = phase2.replace('/\s/g','');
+			phase4 = "data:image;base64," + phase3;
+			allphotosarray[onlynamesvar] = phase4;
+			photochunk = [];
+
+			}
+			
+			skipphotoline1 = 0;
+			skipphotolinelast = 0;
+
+			//var Z = X.slice(X.indexOf(Y) + Y.length);//var Z = X.replace(new RegExp('.*' + Y), '');
+		}
+		
+		if (currentline.startsWith(title) == true)
+		{
+			
+			var titletemp = currentline.replace('TITLE:', '');
+			var titletemp2 = titletemp.replaceAll(';', ' ');
+			alltitles[onlynamesvar] = titletemp2;
+			
+
+
+			
+			
+			
+		}
+		
+		if (currentline.startsWith(gender) == true)
+		{
+			
+			var gendertemp = currentline.replace('GENDER:', '');
+			var gendertemp2 = gendertemp.replaceAll(';', ' ');
+			allgenders[onlynamesvar] = gendertemp2;
+			
+
+
+			
+			
+			
+		}
+		if (currentline.startsWith(birthday) == true)
+		{
+			
+			var birthdaytemp = currentline.replace('BDAY:', '');
+			var birthdaytemp2 = birthdaytemp.replaceAll(';', ' ');
+			allbirthdays[onlynamesvar] = birthdaytemp2;
+			
+
+
+			
+			
+			
+		}
+		
+		//GET ALL EMAILS
+		if (currentline.startsWith(emailcode) == true)
+		{
+			var b4 = currentline.split(':')[0];
+			var emailtemp = currentline.replace(b4, '');
+			var emailtemp1 = emailtemp.replace(":", "");
+			var emailtemp2 = emailtemp1.replaceAll(';', ' ');
+			allemailarray[onlynamesvar] = emailtemp2;
+			
+
+
+			
+			
+			
+		}	
+		//GET ALL URLS
+		if (currentline.startsWith(url) == true)
+		{
+			var b4 = currentline.split(':')[0];
+			var urltemp = currentline.replace(b4, '');
+			var urltemp1 = urltemp.replace(":", "");
+			var urltemp2 = urltemp1.replaceAll(';', ' ');
+			allurls[onlynamesvar] = urltemp2;
+			
+
+
+			
+			
+			
+		}	
+		
+		
+		
+		//GET ALL HOME ADDRESSES
+
+		if (currentline.startsWith(addresshomecode) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var hometemp = currentline.replace(b4, '');
+			var hometemp1 = hometemp.replace(":", "");
+			var hometemp2 = hometemp1.replaceAll(';', ' ');
+			alladdresshomearray[onlynamesvar] = hometemp2;
+
+
+
+			
+			
+			
+		}	
+
+
+		//GET ALL WORK ADDRESSES
+	
+		if (currentline.startsWith(addressworkcode) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var worktemp = currentline.replace(b4, '');
+			var worktemp1 = worktemp.replace(":", "");
+			var worktemp2 = worktemp1.replaceAll(';', ' ');
+			alladdressworkarray[onlynamesvar] = worktemp2;
+
+
+			
+			
+			
+		}	
+
+		
+		//GET ALL PHONES NUMBERS
+
+		if (currentline.startsWith(phone1code) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var phonetemp = currentline.replace(b4, '');
+			var phonetemp1 = phonetemp.replace(":","");
+			allphonesarray[onlynamesvar] = phonetemp1;
+
+
+
+			
+			
+			
+		}
+
+
+
+		
+		//GET ALL 2ND PHONES NUMBERS
+
+		if (currentline.startsWith(phone2code) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var phonetemp2 = currentline.replace(b4, '');
+			var phonetemp21 = phonetemp2.replace(":","");
+			allphones2array[onlynamesvar] = phonetemp21;
+		
+			
+			
+		}
+
+		
+		//GET ALL VOICE PHONE NUMBERS 
+
+		if (currentline.startsWith(phone3code) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var phonetemp3 = currentline.replace(b4, '');
+			var phonetemp31 = phonetemp3.replace(":","");
+			allvoicesarray[onlynamesvar] = phonetemp31;
+			
+		}		
+		
+		//GET ALL CELL NUMBERS
+
+		if (currentline.startsWith(cell1code) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var celltemp = currentline.replace(b4, '');
+			var celltemp1 = celltemp.replace(":","");
+			allcellsarray[onlynamesvar] = celltemp1;
+		
+		}
+
+		//GET ALL CELL 2 NUMBERS
+
+    
+		
+		}
+		
+		
+		for (k = 1;k < onlynamesvar + 1; k++)
+		{
+	 
+		buildtable = buildtable + "<tr id='id" + k + "'><td id='photo' contenteditable='false'>" + 
+		"<input type='file' style='max-width:64px !important;' onchange='changephoto(this.files[0]," + k +");' accept='image/*'><img src='" + allphotosarray[k] + "' width='64' height='64' id='pic" + k + "'>" + "</td><td  contenteditable='true' style='background: linear-gradient(-135deg,#000 5px,#fff 0); color: #000 !important;'>" +
+		allnamesarray[k] + "</td><td contenteditable='true' >" + 
+		alltitles[k] + "</td><td contenteditable='true' >" + 
+		allgenders[k] + "</td><td contenteditable='true' >" + 
+		allbirthdays[k] + "</td><td contenteditable='true' >" + 
+		allemailarray[k] + "</td><td contenteditable='true' >" + 
+		allurls[k] + "</td><td contenteditable='true' >" + 
+		allcellsarray[k] + "</td><td contenteditable='true' >" + 
+		allphonesarray[k] + "</td><td contenteditable='true' >" + 	
+		allphones2array[k] + "</td><td contenteditable='true' >" + 
+		allvoicesarray[k] + "</td><td contenteditable='true' >" +
+		alladdresshomearray[k] + "</td><td contenteditable='true' >" + 
+		alladdressworkarray[k] +  		
+		"</td><td>" + k + "</td></tr>";
+		
+		keeptrackofnewcontacts = k;
+		}
+		
+		document.getElementById("output").innerHTML = "<table id='myTable' class='sortable' ><tr><th style ='background:hsl(0,100%,80%);'>AVATAR</th><th style='background:hsl(24,100%,80%);'>NAME</th><th style ='background:hsl(48,100%,80%);'>TITLE</th><th style ='background:hsl(72,100%,80%);'>GENDER</th><th style ='background:hsl(96,100%,80%);'>BIRTHDAY</th><th style ='background:hsl(118,100%,80%);'>EMAIL</th><th style ='background:hsl(142,100%,80%);'>URL</th><th style ='background:hsl(166,100%,80%);'>CELL</th><th style ='background:hsl(212,100%,80%);'>TEL HOME</th><th style ='background:hsl(236,100%,80%);'>TEL WORK</th><th style ='background:hsl(260,100%,80%);'>FAX</th><th style ='background:hsl(284,100%,80%);'>LOC HOME</th><th style ='background:hsl(306,100%,80%);'>LOC WORK</th><th  style='background:#000;color:#fff;' >ID</th></tr>" + buildtable + "</table>";
+		
+		var newTableObject = document.getElementById('myTable');
+		sorttable.makeSortable(newTableObject);
+		
+		//END OF APP
+			}
+		fr.readAsText(this.files[0]);	
+
+        })
+
+     /*
+	 
+	     <script type="text/javascript">
+        document.getElementById('inputfile')
+            .addEventListener('change', function() {
+              
+            var fr=new FileReader();
+            fr.onload=function(){
+                document.getElementById('output')
+                        .textContent=fr.result;
+            }
+              
+            fr.readAsText(this.files[0]);
+        })
+		
+		*/
+    </script>
+</html>
+<script>
+const fileDataURL = file => new Promise((resolve,reject) => {
+    let fr = new FileReader();
+    fr.onload = () => resolve( fr.result);
+    fr.onerror = reject;
+    fr.readAsDataURL( file)
+});
+function changephoto(file, thispicture) {
+    var proper = "pic" + thispicture;
+	var getmainstring = "";
+    fileDataURL(file)
+    .then( data => (document.getElementById(proper).src = data));
+
+}
+
+function saveit() {
+
+var diff = (keeptrackofnewcontacts - k);
+var latest = diff + 2;
+var allmycontacts = latest;
+for (x = 0; x < howmanylines; x++)
+{
+	    currentline = upper[x];
+        if (currentline.includes("BEGIN"))
+		allmycontacts++;
+}
+
+var arraycompletestring = "";
+var readytosave = "";
+var getridofsemi = "";
+
+for (i = 1; i < allmycontacts; i++)
+{
+		
+      for (j = 0; j < 13; j++)
+	  {
+			if (j == 0)
+			{
+			var namespec = "BEGIN:VCARD^VERSION:2.1^PHOTO;ENCODING=BASE64;JPEG:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+            //var mybase64image = savecurrentname.replace('<img src="data:image;base64,', '');
+			//var mybase64image2 = mybase64image.replace('" width="64" height="64">', '');
+			var b4 = savecurrentname.split('base64,')[0];
+			var b5 = savecurrentname.replace(b4, '');
+			var b6 = b5.replace('base64,', '');
+			var b7 = b6.split('" width')[0];
+			var namef = namespec + b7 + "^";
+	        arraycompletestring += namef;
+			}
+			if (j == 1)
+			{
+			var namespec = "N:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 2)
+			{
+			var namespec = "TITLE:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 3)
+			{
+			var namespec = "GENDER:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 4)
+			{
+			var namespec = "BDAY:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 5)
+			{
+			var namespec = "EMAIL:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 6)
+			{
+			var namespec = "URL:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 7)
+			{
+			var namespec = "TEL;CELL:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 8)
+			{
+			var namespec = "TEL;HOME:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 9)
+			{
+			var namespec = "TEL;WORK:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 10)
+			{
+			var namespec = "TEL;VOICE:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 11)
+			{
+			var namespec = "ADR;HOME:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 12)
+			{
+			var namespec = "ADR;WORK:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^END:VCARD^";
+			arraycompletestring += namef;
+			}
+			
+			
+	  }
+
+}
+
+
+getridofsemi = arraycompletestring.replaceAll("^", '\n');
+readytosave = getridofsemi;
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+
+download('MyNewVCFcard.vcf',readytosave);
+}
+
+function delContact() {
+  let person = prompt("DEL CONTACT ID", "0");
+  var exactperson = "#id" + person;
+  if (person != null) {
+    $(exactperson).remove();
+  }
+
+}
+</script>
