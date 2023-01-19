@@ -1,4 +1,3 @@
-# VCF-Virtual-Card-Viewer-JS X
 A VCF (Virtual Contact File) Viewer/Editor/Creator in JavaScript<br><br>
 
 ![FireShot Capture 011 - vCard (VCF) Viewer_Editor JS X FINAL 2 0a - localhost](https://user-images.githubusercontent.com/16135535/213566782-a77080d0-6cb9-4c98-b796-f691c7b800e9.png)
