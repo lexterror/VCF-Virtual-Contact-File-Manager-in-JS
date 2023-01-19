@@ -1,9 +1,9 @@
 # VCF-Virtual-Card-Viewer-JS X
-A VCF (Virtual Card Format) Viewer/Editor/Creator in JavaScript<br><br>
+A VCF (Virtual Contact File) Viewer/Editor/Creator in JavaScript<br><br>
 
 ![FireShot Capture 011 - vCard (VCF) Viewer_Editor JS X FINAL 2 0a - localhost](https://user-images.githubusercontent.com/16135535/213566782-a77080d0-6cb9-4c98-b796-f691c7b800e9.png)
 
-A Simple VCF (Virtual Card Format) Viewer/Editor/Creator in JavaScript (VCF versions 2.1/3.0/4.0)<br><br>
+A Simple VCF (Virtual Contact File) Viewer/Editor/Creator in JavaScript (VCF versions 2.1/3.0/4.0)<br><br>
 
 What is a VCF file?<br><br>
 A VCF file is a standard file format for storing contact information for one or more persons or a business. It typically includes a name, address, phone number, email address, and other contact information. VCF files also support custom fields, images, and other types of media.<br><br>
@@ -12,18 +12,18 @@ Live demo at: http://alext.rf.gd/vCardViewer.html <br><br>
 
 Features:<br><br>
 
--Most common information fields<br>
--Supports version 2.1, 3.0, 4.0 VCF<br>
--Automatic version detection<br>
--Unlimited number of vCards (As much table data as your browser supports)<br>
--Profile photo support: Both URLs and BASE64<br>
--Edit any entries already on display<br>
--Save your edited VCF card(s) directly on your computer<br>
--Add new contact entries<br>
--Ability to add/update profile pictures<br>
--Ability to sort any column in the table alphabetically<br>
--Option to delete any contacts<br>
--Option to print contacts to PDF or paper<br>
+-Includes 13 of the most common property types, more can be included if needed.<br>
+-Supports version 2.1, 3.0, 4.0 of VCF<br>
+-Automatic VCF version detection when loading a VCF file<br>
+-Unlimited number of vCards (VCF) (As much table data as your browser supports)<br>
+-Profile photo support: Both URLs and Base64<br>
+-Edit any property already on display<br>
+-Save your created/edited VCF card(s) directly on your computer<br>
+-Add unlimited new contacts<br>
+-Add/update profile pictures<br>
+-Sort any column in the table alphabetically<br>
+-Delete any contact with left mouse click (When delete mode is "ON")<br>
+-Print contacts to PDF or paper<br>
 -Search bar feature to find contacts easily<br>
 -Create a VCF from scratch!!!<br><br>
 
