@@ -1,7 +1,7 @@
-# VCF-Virtual-Card-Viewer-JS 7.2 
+# VCF-Virtual-Card-Viewer-JS 8.0 
 A VCF (Virtual Card Format) Viewer/Editor in Javascript<br><br>
 
-![FireShot Capture 007 - vCard (VCF) Viewer_Editor JS 7 2 FINAL_ - localhost](https://user-images.githubusercontent.com/16135535/213307992-6dca0b55-cbc9-479e-9a0b-4b90fbf1250c.png)
+![FireShot Capture 008 - vCard (VCF) Viewer_Editor JS 8 0 FINAL_ - localhost](https://user-images.githubusercontent.com/16135535/213346298-beae178e-beb0-4682-b80c-298f95acd7ff.png)
 
 A Simple VCF (Virtual Card Format) Viewer/Editor in JavaScript (VCF versions 2.1/3.0/4.0)<br><br>
 
@@ -17,11 +17,8 @@ Features:<br><br>
 -Add New Contact Entries<br>
 -Ability to add/update profile pictures<br>
 -Ability to sort table alphabetically<br>
--Option to delete any contacts<br><br>
-
-Coming Soon:<br><br>
-
--Create a vcf from scratch!!!<br><br>
+-Option to delete any contacts<br>
+-Create a VCF from scratch!!!<br><br>
 
 Thank you!<br><br>
 
