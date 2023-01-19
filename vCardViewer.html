@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>vCard (VCF) Viewer/Editor JS X FINAL 3.0</title>
+<title>vCard (VCF) Viewer/Editor JS X FINAL 4.0s</title>
 <script src="js/jquery-3.6.3.min.js"></script>
 <script src="js/sorttable.js"></script>
 <script src="js/moment.js"></script>
@@ -32,11 +32,18 @@ tr:nth-child(odd) {
 #photo td {
 
 }
+
+html {
+
+	min-width: 900px !important;
+}
 body {
 
 	max-width: 100%;
+	width: 100%;
 	margin: 0 auto;
 	background: #000;
+	min-width: 900px !important;
 }
 
 table {
@@ -65,7 +72,13 @@ table.sortable thead {
   font-size: 100%;
   }
   
-  
+button:hover {
+
+background: rgba(255,255,255,0.25);
+
+}
+
+
 button {
 
 	color:#ffffff;
@@ -140,6 +153,7 @@ background: linear-gradient(135deg,  #333333 0%,#333333 24%,#555555 25%,#333333 
 background-size: 10px 10px;
 }
 
+
 .carbonclass > div {
 width: inherit;
 height: inherit;
@@ -184,17 +198,25 @@ button {
 #myTable tbody {
 	top: 64px !important;
 }
+
 </style>
 </head>
 <body>
-
+<div id="logo" style="width:48px;height:48px;position:fixed;left:146px;top:5px;z-index:9999;opacity:0.9;">
+<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gU3ZnIFZlY3RvciBJY29ucyA6IGh0dHA6Ly93d3cub25saW5ld2ViZm9udHMuY29tL2ljb24gLS0+Cgo8c3ZnCiAgIHZlcnNpb249IjEuMSIKICAgeD0iMHB4IgogICB5PSIwcHgiCiAgIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiCiAgIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDEwMDAgMTAwMCIKICAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIKICAgaWQ9InN2ZzQyIgogICBzb2RpcG9kaTpkb2NuYW1lPSJ2Y2Zsb2dvLnN2ZyIKICAgaW5rc2NhcGU6dmVyc2lvbj0iMS4yLjIgKDczMmEwMWRhNjMsIDIwMjItMTItMDkpIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzCiAgIGlkPSJkZWZzNDYiIC8+PHNvZGlwb2RpOm5hbWVkdmlldwogICBpZD0ibmFtZWR2aWV3NDQiCiAgIHBhZ2Vjb2xvcj0iI2ZmZmZmZiIKICAgYm9yZGVyY29sb3I9IiMwMDAwMDAiCiAgIGJvcmRlcm9wYWNpdHk9IjAuMjUiCiAgIGlua3NjYXBlOnNob3dwYWdlc2hhZG93PSIyIgogICBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMC4wIgogICBpbmtzY2FwZTpwYWdlY2hlY2tlcmJvYXJkPSIwIgogICBpbmtzY2FwZTpkZXNrY29sb3I9IiNkMWQxZDEiCiAgIHNob3dncmlkPSJmYWxzZSIKICAgaW5rc2NhcGU6em9vbT0iMC4xODI3ODcxIgogICBpbmtzY2FwZTpjeD0iLTI0My40NTI2MiIKICAgaW5rc2NhcGU6Y3k9IjY0NS41NTk3NyIKICAgaW5rc2NhcGU6d2luZG93LXdpZHRoPSIxMzY2IgogICBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSI2OTciCiAgIGlua3NjYXBlOndpbmRvdy14PSItOCIKICAgaW5rc2NhcGU6d2luZG93LXk9Ii04IgogICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIxIgogICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJzdmc0MiIgLz4KPG1ldGFkYXRhCiAgIGlkPSJtZXRhZGF0YTIiPiBTdmcgVmVjdG9yIEljb25zIDogaHR0cDovL3d3dy5vbmxpbmV3ZWJmb250cy5jb20vaWNvbiA8L21ldGFkYXRhPgo8ZwogICBpZD0iZzQwIgogICBzdHlsZT0iZmlsbDojZjJmMmYyIj48ZwogICAgIGlkPSJnOCIKICAgICBzdHlsZT0iZmlsbDojZjJmMmYyIj48cGF0aAogICAgICAgZD0iTTYwNy44LDkwNS40YzEuMywwLjEsMi42LDAuMiwzLjksMC4yaDI5Ni43YzM0LjcsMCw2Mi45LTI4LjIsNjIuOS02Mi45VjE1NC44YzAtMzQuNy0yOC4yLTYyLjktNjIuOS02Mi45SDYxMS43Yy0xLjMsMC0yLjYsMC4xLTMuOSwwLjJWMTBMMjguNyw4Ny4zdjgyMy40TDYwNy44LDk5MFY5MDUuNHogTTYwNy44LDYwMy4xaDgyLjd2LTEzLjdoLTgyLjd2LTMzLjVoODIuN1Y1NDJoLTgyLjd2LTMxLjloODIuN3YtMTMuOGgtODIuN3YtMzIuMWg4Mi43di0xMy43aC04Mi43di00Mi41aDI3Ni42YzAuNiwwLDEuMSwwLjUsMS4xLDEuMnYyNDAuOWMwLDAuNi0wLjUsMS4xLTEuMSwxLjFINjA3LjhWNjAzLjF6IE02MTEuNywxMjcuOWgyOTYuN2MxNC45LDAsMjcsMTIuMSwyNywyN3Y2ODcuOGMwLDE0LjktMTIuMSwyNy0yNywyN0g2MTEuN2MtMS4zLDAtMi42LTAuMi0zLjktMC40VjY2Mi43aDI3Ni42YzcsMCwxMi42LTUuNiwxMi42LTEyLjZWNDA5LjJjMC03LTUuNy0xMi42LTEyLjYtMTIuNkg2MDcuOFYxMjguM0M2MDkuMSwxMjguMSw2MTAuMywxMjcuOSw2MTEuNywxMjcuOXogTTE3Miw2MTMuOWwtNDUuMS0yLjNsLTUyLjQtMTg0bDQwLjMtMS4xbDIwLjQsNzguMmM1LjgsMjIuMiwxMSw0My42LDE1LjEsNjcuMWwwLjgsMGM0LjMtMjIuNCw5LjctNDQuNiwxNS42LTY2LjFsMjIuMy04MS4zbDQzLjItMS4yTDE3Miw2MTMuOXogTTM0OC41LDU4OGMxMy44LDAuNSwyOS4zLTEuOSwzOC40LTUuM2w3LjEsMzYuOGMtOC42LDMuOS0yNy44LDcuNC01Mi4zLDYuMmMtNjcuMy0zLjYtMTAwLjUtNDcuMi0xMDAuNS0xMDIuN2MwLTY2LjQsNDUuNy0xMDQuNywxMDUtMTA2LjVjMjMuNy0wLjcsNDIsMy43LDUwLjQsNy43bC05LjUsMzcuM2MtOS41LTMuOC0yMi42LTcuMy0zOC43LTcuMWMtMzUuNiwwLjUtNjIuNSwyMi40LTYyLjUsNjYuNUMyODUuNyw1NjAuNywzMDguNiw1ODYuNSwzNDguNSw1ODh6IE01NjIuNSw0NTQuNmwtODcuOSwxLjJ2NDguN2w4MiwwLjR2NDAuNWwtODItMS42djg1LjhsLTQ5LjMtMi42VjQxNy42bDEzNy4yLTMuOVY0NTQuNnoiCiAgICAgICBpZD0icGF0aDQiCiAgICAgICBzdHlsZT0iZmlsbDojZjJmMmYyIiAvPjxwYXRoCiAgICAgICBkPSJNODQ0LjMsNTM2LjhsLTI3LjItMTQuM2MwLDAtMS40LTEuNy00LTMuOGM1LjMtNiw5LjItMTQuMSwxMC4yLTIyLjFjMC44LTAuNiwyLjEtMS45LDIuNi01YzAsMCwzLjItMTEuNi0xLjUtOS40YzMuMy0xNy42LDAuOC0yMy43LDAuOC0yMy43Yy0zLjQtMTEuNi0zLjctMTQuMi0xNS45LTE3LjNjLTEyLjItMy4xLTI3LjUsMS43LTI3LjUsMS43Yy0xMC4xLDMtMTQuMyw4LjctMTQuMyw4LjdjLTguOSwxMC00LjMsMjYuMi0yLjksMzAuM2MtNC0xLjItMSw5LjYtMSw5LjZjMC41LDMuMSwxLjgsNC41LDIuNiw1YzEuMSw3LjgsNS40LDE2LjMsMTEuMiwyMi41Yy0xLjMsMS0yLjUsMi0zLjgsMy4yYzAsMC0wLjEsNC40LTEyLjcsOC45YzAsMC0yMy42LDcuNC0yNy40LDE2YzAsMC0xMi45LDI5LjMtOS45LDU1LjNjMCwwLDAuMSwyLjIsNC40LDQuOWMwLDAsMjkuNywxMi40LDcwLjQsMTEuNmMwLDAsMzkuNi0yLDY1LTEzLjNjMCwwLDMuNi0wLjgsMy43LTkuMWMwLDAtMS4zLTM2LjMtMTIuMy01Mi42Qzg1NC45LDU0NCw4NTEuNyw1MzkuNyw4NDQuMyw1MzYuOHoiCiAgICAgICBpZD0icGF0aDYiCiAgICAgICBzdHlsZT0iZmlsbDojZjJmMmYyIiAvPjwvZz48ZwogICAgIGlkPSJnMTAiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMTIiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMTQiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMTYiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMTgiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMjAiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMjIiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMjQiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMjYiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMjgiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMzAiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMzIiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMzQiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMzYiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMzgiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48L2c+Cjwvc3ZnPgo=" width="48px" height="48px">
+</div>
+<div style="font-family: pragm;width:140px;height:48px;left:0;top:5px; color: #fff;font-size: 10px;line-height:10px;z-index:999;position:fixed;border-right:2px solid #aaa;opacity:0.9;">
+<span style="margin-left: 5px;float:left;margin-top: 5px;text-align: right;">VCF Viewer/Editor/Creator<br>Open-Source<br>Built with JavaScript<br>Available on <a href="https://github.com/lexterror/VCF-Virtual-Card-Viewer-JS" style="color:#fff;" target="_blank">GitHub</a></span>
+</div>
 <div id="trapezoid"></div>
 <input type='text' id='myInput' class="no-submit" onkeyup='myFunction()' placeholder='Live Search...' style='z-index:999999;font-size: 12px; font-family:pragm; color:dodgerblue;height:32px;text-shadow: 0 0 5px #fff;text-align:center;width:245px;height:32px; left: 50%;transform: translateX(-50%);position:fixed;top: 0;z-index:99;border:none;border:0;outline:none;'>
 
 <div id="dialg" title="Dialog Title" style="">&copy; 2023 Created by: Alex Terranova<br>electrolex@yahoo.com<br>Feel free to distribute and modify.<br>Thank you!</div>
-<div class="carbonclass" style="top:0px;height:96px;width:100%;color:#fff;position:fixed;border-radius: 0px 0px 0px 0px;border-top: 32px solid #000; z-index: 9;">
+<div class="carbonclass" style="top:0px;height:128px;width:100%;color:#fff;position:fixed;border-radius: 0px 0px 0px 0px; z-index: 9;">
 		</div>
-<div style="background:#fff;top:58px;height:64px;width:860px;color:#fff;position:fixed;border-radius: 5px 5px 5px 5px;left: 50%;transform: translateX(-50%); z-index: 9;">
+<div style="background:linear-gradient(rgba(0,0,0,0.6),rgba(111,111,111,0.5));top:0px;height:57px;width:100%;color:#000;position:fixed;border-radius: 0px;left: 50%;transform: translateX(-50%); z-index: 9;border-bottom: 1px solid #666;">
+		</div>
+<div style="background:linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0));top:58px;height:70px;width:100%;color:#000;position:fixed;border-radius: 0px;left: 50%;transform: translateX(-50%); z-index: 9;border-top: 2px solid rgba(0,0,0,0.8);">
 		</div>
   <label for="vcf" style="left:0;right:0;margin: 0 auto;text-align:center;position: fixed;top: 0;font-family:arial; z-index: 9;"></label>
 
@@ -204,7 +226,7 @@ button {
 	    <button style="top: 64px; width: 120px;height: 50px;float:right;" onclick="saveit();">Save VCF File</button>
 		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="newContact();">New Contact</button>
 		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="document.getElementById('inputfile').click();" />Load VCF File</button>
-		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="delContact();">Delete Contact</button>
+		<button id ="del" style="top: 64px; width: 120px;height: 50px;float:left;" onclick="delContact();">Delete (Off)</button>
 	    <button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="printit();">Print</button>
 	    <button id="opener" style="top: 64px; width: 120px;height: 50px;float:left;">About</button>
 	    <button id="restart" style="top: 64px; width: 120px;height: 50px;float:left;" onclick="restart();">Restart</button>
@@ -228,7 +250,7 @@ button {
                buttons: {  
                   OK: function() {$(this).dialog("close");}  
                },  
-               title: "About VCF Viewer JS X 3.0",  
+               title: "About VCF Viewer JS X 4.0s",  
                position: {  
                   my: "center",  
                   at: "center"  
@@ -339,7 +361,7 @@ cell10.innerHTML = "<td contenteditable='true' >" + allphones2array[keeptrackofn
 cell11.innerHTML = "<td contenteditable='true' >" + allvoicesarray[keeptrackofnewcontacts] + "</td>";
 cell12.innerHTML = "<td contenteditable='true' >" + alladdresshomearray[keeptrackofnewcontacts] + "</td>";
 cell13.innerHTML = "<td contenteditable='true' >" + alladdressworkarray[keeptrackofnewcontacts] + "</td>";
-cell14.innerHTML = "<td contenteditable='true' >" + keeptrackofnewcontacts + "</td>";
+cell14.innerHTML = "<td contenteditable='true' >" + "<button style='width:100%;height:100%' onclick='delContactPress(" + keeptrackofnewcontacts + ")'>DELETE</button>" + "</td>";
 
 $("td").click(function(){
     if($(this).attr("contentEditable") == true){
@@ -417,6 +439,7 @@ $("td").click(function(){
 		var upper = [];
 		var keeptrackofnewcontacts = 0;
 		var newtbodyexists = 0;
+		var deletebool = 0;
 	
         
 		document.getElementById('inputfile').addEventListener('change', function() {
@@ -805,8 +828,8 @@ $("td").click(function(){
 		allphones2array[k] + "</td><td contenteditable='true' >" + 
 		allvoicesarray[k] + "</td><td contenteditable='true' >" +
 		alladdresshomearray[k] + "</td><td contenteditable='true' >" + 
-		alladdressworkarray[k] +  		
-		"</td><td>" + k + "</td></tr>";
+		alladdressworkarray[k] + 
+		"</td><td>" + "<button style='width:100%;height:100%' onclick='delContactPress(" + k + ")'>DELETE</button>" + "</td></tr>";
 		
 		keeptrackofnewcontacts = k;
 		}
@@ -1039,6 +1062,19 @@ download(myfilenamealways,readytosave);
 };
 
 function delContact() {
+
+
+  if (deletebool%2 == 0)
+  {
+  document.getElementById("del").innerHTML = "Delete (On)";
+  }
+  if (deletebool%2 != 0)
+  {
+  document.getElementById("del").innerHTML = "Delete (Off)";
+  }
+  
+  deletebool++;
+  /*
   let person = prompt("DELETE CONTACT ID", "");
   var exactperson = "#id" + person;
   if (person != null) {
@@ -1046,6 +1082,15 @@ function delContact() {
    // $(exactperson).empty();
       $(exactperson).remove();
 	
+  }*/
+
+}
+
+function delContactPress(id) {
+  if (deletebool%2 != 0)
+  {
+var exactperson = "#id" + id;
+$(exactperson).remove();
   }
 
 }
