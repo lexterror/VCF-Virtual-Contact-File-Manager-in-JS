@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>vCard (VCF) Viewer/Editor JS X FINAL 2.0a</title>
+<title>vCard (VCF) Viewer/Editor JS X FINAL 2.0b</title>
 <script src="js/jquery-3.6.3.min.js"></script>
 <script src="js/sorttable.js"></script>
 <script src="js/moment.js"></script>
@@ -227,7 +227,7 @@ button {
                buttons: {  
                   OK: function() {$(this).dialog("close");}  
                },  
-               title: "About VCF Viewer JS X 2.0a",  
+               title: "About VCF Viewer JS X 2.0b",  
                position: {  
                   my: "center",  
                   at: "center"  
@@ -856,6 +856,13 @@ function changephoto(file, thispicture) {
 
 function saveit() {
 
+
+
+  let card = prompt("Enter a name for your VCF file", "");
+  var newcardname = card;
+  if (card != null) {
+   
+
 var diff = (keeptrackofnewcontacts - k);
 var latest = diff + 2;
 var allmycontacts = latest;
@@ -1022,8 +1029,12 @@ function download(filename, text) {
 };
 
 var local = moment().format();
-var myfilenamealways = "MyVCFcard_" + local + ".vcf";
+var myfilenamealways = card + "_" + local + ".vcf";
 download(myfilenamealways,readytosave);
+	
+  }
+
+
 };
 
 function delContact() {
