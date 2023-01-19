@@ -20,8 +20,8 @@ Features:<br><br>
 -Ability to add/update profile pictures<br>
 -Ability to sort any column in the table alphabetically<br>
 -Option to delete any contacts<br>
--Button to print contacts to PDF or paper<br>
--Search bar/feature to find contacts quickly<br>
+-Option to print contacts to PDF or paper<br>
+-Search bar feature to find contacts quickly<br>
 -Create a VCF from scratch!!!<br><br>
 
 Thank you!<br><br>
