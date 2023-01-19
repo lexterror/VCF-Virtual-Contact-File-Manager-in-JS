@@ -1,8 +1,12 @@
 <html>
 <head>
-<title>vCard (VCF) Viewer/Editor JS 8.0 FINAL_</title>
+<title>vCard (VCF) Viewer/Editor JS 9.1 FINAL</title>
 <script src="js/jquery-3.6.3.min.js"></script>
 <script src="js/sorttable.js"></script>
+<script src="js/moment.js"></script>
+<script src="js/printThis.js"></script>
+<script src="js/jquery-ui.js"></script>
+<link rel="stylesheet" href="js/jquery-ui.css">
 <meta charset="UTF-8">
 <style>
 td, th {
@@ -113,29 +117,90 @@ button {
 	text-decoration: none;
 }
 
+
+.carbonclass {
+width: 980px;
+height: 96px;
+margin: 0 auto;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+-webkit-box-shadow: 0 0 25px 0 #fff;
+background: #333333;
+background: -moz-linear-gradient(-45deg,  #333333 0%, #333333 24%, #555555 25%, #333333 26%, #333333 50%, #333333 74%, #555555 75%, #333333 76%, #333333 100%);
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#333333), color-stop(24%,#333333), color-stop(25%,#555555), color-stop(26%,#333333), color-stop(50%,#333333), color-stop(74%,#333333), color-stop(75%,#555555), color-stop(76%,#333333), color-stop(100%,#333333));
+background: -webkit-linear-gradient(-45deg,  #333333 0%,#333333 24%,#555555 25%,#333333 26%,#333333 50%,#333333 74%,#555555 75%,#333333 76%,#333333 100%);
+background: -o-linear-gradient(-45deg,  #333333 0%,#333333 24%,#555555 25%,#333333 26%,#333333 50%,#333333 74%,#555555 75%,#333333 76%,#333333 100%);
+background: -ms-linear-gradient(-45deg,  #333333 0%,#333333 24%,#555555 25%,#333333 26%,#333333 50%,#333333 74%,#555555 75%,#333333 76%,#333333 100%);
+background: linear-gradient(135deg,  #333333 0%,#333333 24%,#555555 25%,#333333 26%,#333333 50%,#333333 74%,#555555 75%,#333333 76%,#333333 100%);
+background-size: 10px 10px;
+}
+
+.carbonclass > div {
+width: inherit;
+height: inherit;
+background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 100%);
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,0.55)), color-stop(100%,rgba(255,255,255,0)));
+background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 100%);
+background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 100%);
+background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 100%);
+background: radial-gradient(ellipse at center,  rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 100%);  
+}
 </style>
 </head>
 <body>
-<div style="background:#333;top:32px;height:96px;width:980px;color:#fff;position:absolute;border-radius: 5px 5px 0 0;">
+<div id="dialg" title="Dialog Title" style="">&copy; 2023 Created by: Alex Terranova<br>electrolex@yahoo.com<br>Feel free to distribute and modify.<br>Thank you!</div>
+<div class="carbonclass" style="top:0px;height:96px;width:980px;color:#fff;position:absolute;border-radius: 0px 0px 0 0;border-top: 32px solid #000;">
 		</div>
-<div style="background:#fff;top:58px;height:64px;width:620px;color:#fff;position:absolute;border-radius: 5px 5px 5px 5px;left: 50%;transform: translateX(-50%);">
+<div style="background:#fff;top:58px;height:64px;width:860px;color:#fff;position:absolute;border-radius: 5px 5px 5px 5px;left: 50%;transform: translateX(-50%);">
 		</div>
-  <label for="vcf" style="left:0;right:0;margin: 0 auto;text-align:center;position: absolute;top: 0;font-family:arial;">Choose a VCF (Virtual Card Format: 2.1, 3.0, 4.0 Supported!)</label>
+  <label for="vcf" style="left:0;right:0;margin: 0 auto;text-align:center;position: absolute;top: 0;font-family:arial;"></label>
 
     <input type="file" name="inputfile"
             id="inputfile" style="position: absolute; top: 32px;left: 50%;transform: translateX(-50%);display:none;">
-	<div style="left: 50%;transform: translateX(-50%);width:600px; top: 64px;position: absolute;height: 50px;">
+	<div style="left: 50%;transform: translateX(-50%);width:840px; top: 64px;position: absolute;height: 50px;">
 	    <button style="top: 64px; width: 120px;height: 50px;float:right;" onclick="saveit();">Save VCF File</button>
 		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="newContact();">New Contact</button>
 		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="document.getElementById('inputfile').click();" />Load VCF File</button>
 		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="delContact();">Delete Contact</button>
+	    <button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="printit();">Print</button>
+	    <button id="opener" style="top: 64px; width: 120px;height: 50px;float:left;">About</button>
 	    <button id="restart" style="top: 64px; width: 120px;height: 50px;float:left;" onclick="restart();">Restart</button>
 		</div>
 
 		<table id='myTable' class='sortable' ><tr><th style ='background:hsl(0,100%,80%);'>AVATAR</th><th style='background:hsl(24,100%,80%);'>NAME</th><th style ='background:hsl(48,100%,80%);'>TITLE</th><th style ='background:hsl(72,100%,80%);'>GENDER</th><th style ='background:hsl(96,100%,80%);'>BIRTHDAY</th><th style ='background:hsl(118,100%,80%);'>EMAIL</th><th style ='background:hsl(142,100%,80%);'>URL</th><th style ='background:hsl(166,100%,80%);'>CELL</th><th style ='background:hsl(212,100%,80%);'>TEL HOME</th><th style ='background:hsl(236,100%,80%);'>TEL WORK</th><th style ='background:hsl(260,100%,80%);'>FAX</th><th style ='background:hsl(284,100%,80%);'>LOC HOME</th><th style ='background:hsl(306,100%,80%);'>LOC WORK</th><th  style='background:#000;color:#fff;' >ID</th></tr><tbody id='output'></tbody></table>
     <br>
+      <style>  
+         .ui-widget-header,.ui-state-default, ui-button{  
+            background:dodgerblue;  
+            border: 2px solid deeppink;  
+            color: white;  
+            font-weight: bold;  
+		
+         }  
+      </style> 
+<script>  
+         $(function() {  
+            $( "#dialg" ).dialog({  
+               autoOpen: false,   
+               buttons: {  
+                  OK: function() {$(this).dialog("close");}  
+               },  
+               title: "About VCF Viewer JS 9.1",  
+               position: {  
+                  my: "center",  
+                  at: "center"  
+               }  
+            });  
+            $( "#opener" ).click(function() {  
+               $( "#dialg" ).dialog( "open" );  
+            });  
+         });  
+      </script>  
 <script>
-
+function printit() {
+$("#myTable").printThis();
+}
 function restart() {
 
   let text = "Are you sure you want to restart???\n\nOK or Cancel.";
@@ -904,11 +969,12 @@ function download(filename, text) {
   element.click();
 
   document.body.removeChild(element);
-}
+};
 
-
-download('MyNewVCFcard.vcf',readytosave);
-}
+var local = moment().format();
+var myfilenamealways = "MyVCFcard_" + local + ".vcf";
+download(myfilenamealways,readytosave);
+};
 
 function delContact() {
   let person = prompt("DELETE CONTACT ID", "");
