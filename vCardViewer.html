@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>vCard (VCF) Viewer/Editor JS 7.2 FINAL_</title>
+<title>vCard (VCF) Viewer/Editor JS 8.0 FINAL_</title>
 <script src="js/jquery-3.6.3.min.js"></script>
 <script src="js/sorttable.js"></script>
 <meta charset="UTF-8">
@@ -12,6 +12,7 @@ td, th {
 	max-width: 64px !important;
 	min-width: 64px !important;
 	color: #111;
+	font-size: 12px !important;
 }
 
 tr:nth-child(even) {
@@ -26,7 +27,10 @@ tr:nth-child(odd) {
 
 }
 body {
-	overflow-x: scroll;
+
+	max-width: 980px;
+	margin: 0 auto;
+	background: #fff;
 }
 
 table {
@@ -35,6 +39,7 @@ table {
 	margin: 0 auto;
 	top: 128px;
 	position: absolute;
+	font-family: pragm;
 }
 
 table.sortable thead {
@@ -42,24 +47,154 @@ table.sortable thead {
     cursor: pointer;
 }
 
+  @font-face {
+  font-family: 'pragm';
+  src: url('fonts/PragmataPro.eot'); /* IE9 Compat Modes */
+  src: url('fonts/PragmataPro.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('fonts/PragmataPro.woff2') format('woff2'), /* Super Modern Browsers */
+  url('fonts/PragmataPro.woff') format('woff'), /* Pretty Modern Browsers */
+  url('fonts/PragmataPro.ttf')  format('truetype'); /* Safari, Android, iOS */
+  font-size: 100%;
+  }
+  
+  
+button {
+
+	color:#ffffff;
+	text-align:center;
+	font-weight:bold;
+
+	
+	text-shadow: /* Simulating Text Stroke */
+        -1px -1px 0 #000, 
+        1px -1px 0 #000, 
+        -1px 1px 0 #000, 
+        1px 1px 0 #000;
+	
+	border: 1px solid rgba(0,0,0,0.5);
+	border-bottom: 3px solid rgba(0,0,0,0.5);
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	
+	background: rgba(0,0,0,0.25);
+
+    -o-box-shadow: 
+        0 2px 8px rgba(0,0,0,0.5),
+        inset 0 1px rgba(255,255,255,0.3),
+        inset 0 10px rgba(255,255,255,0.2),
+        inset 0 10px 20px rgba(255,255,255,0.25),
+        inset 0 -15px 30px rgba(0,0,0,0.3);
+
+    -webkit-box-shadow: 
+        0 2px 8px rgba(0,0,0,0.5),
+        inset 0 1px rgba(255,255,255,0.3),
+        inset 0 10px rgba(255,255,255,0.2),
+        inset 0 10px 20px rgba(255,255,255,0.25),
+        inset 0 -15px 30px rgba(0,0,0,0.3);
+
+    -moz-box-shadow:
+        0 2px 8px rgba(0,0,0,0.5),
+        inset 0 1px rgba(255,255,255,0.3),
+        inset 0 10px rgba(255,255,255,0.2),
+        inset 0 10px 20px rgba(255,255,255,0.25),
+        inset 0 -15px 30px rgba(0,0,0,0.3);
+	
+	box-shadow: 
+        0 2px 8px rgba(0,0,0,0.5), /* Exterior Shadow */
+        inset 0 1px rgba(255,255,255,0.3), /* Top light Line */
+        inset 0 10px rgba(255,255,255,0.2), /* Top Light Shadow */
+        inset 0 10px 20px rgba(255,255,255,0.25), /* Sides Light Shadow */
+        inset 0 -15px 30px rgba(0,0,0,0.3); /* Dark Background */
+
+    cursor: pointer;
+	display: inline-block;
+	text-decoration: none;
+}
+
 </style>
 </head>
 <body>
-  <label for="vcf" style="left:0;right:0;margin: 0 auto;text-align:center;position: absolute;top: 0;">Choose a VCF (Virtual Card Format: 2.1, 3.0, 4.0 Supported!):</label>
-    <input type="file" name="inputfile"
-            id="inputfile" style="position: absolute; top: 32px;left: 50%;transform: translateX(-50%);">
-	<div style="left: 50%;transform: translateX(-50%);width:360px; top: 64px;position: absolute;height: 50px;">
-	    <button style="top: 64px; width: 120px;height: 50px;float:right;" onclick="saveit();">Save Edited VCF File</button>
-		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="newContact();">Create New Contact</button>
-		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="delContact();">Delete Contact</button>
+<div style="background:#333;top:32px;height:96px;width:980px;color:#fff;position:absolute;border-radius: 5px 5px 0 0;">
 		</div>
+<div style="background:#fff;top:58px;height:64px;width:620px;color:#fff;position:absolute;border-radius: 5px 5px 5px 5px;left: 50%;transform: translateX(-50%);">
+		</div>
+  <label for="vcf" style="left:0;right:0;margin: 0 auto;text-align:center;position: absolute;top: 0;font-family:arial;">Choose a VCF (Virtual Card Format: 2.1, 3.0, 4.0 Supported!)</label>
+
+    <input type="file" name="inputfile"
+            id="inputfile" style="position: absolute; top: 32px;left: 50%;transform: translateX(-50%);display:none;">
+	<div style="left: 50%;transform: translateX(-50%);width:600px; top: 64px;position: absolute;height: 50px;">
+	    <button style="top: 64px; width: 120px;height: 50px;float:right;" onclick="saveit();">Save VCF File</button>
+		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="newContact();">New Contact</button>
+		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="document.getElementById('inputfile').click();" />Load VCF File</button>
+		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="delContact();">Delete Contact</button>
+	    <button id="restart" style="top: 64px; width: 120px;height: 50px;float:left;" onclick="restart();">Restart</button>
+		</div>
+
+		<table id='myTable' class='sortable' ><tr><th style ='background:hsl(0,100%,80%);'>AVATAR</th><th style='background:hsl(24,100%,80%);'>NAME</th><th style ='background:hsl(48,100%,80%);'>TITLE</th><th style ='background:hsl(72,100%,80%);'>GENDER</th><th style ='background:hsl(96,100%,80%);'>BIRTHDAY</th><th style ='background:hsl(118,100%,80%);'>EMAIL</th><th style ='background:hsl(142,100%,80%);'>URL</th><th style ='background:hsl(166,100%,80%);'>CELL</th><th style ='background:hsl(212,100%,80%);'>TEL HOME</th><th style ='background:hsl(236,100%,80%);'>TEL WORK</th><th style ='background:hsl(260,100%,80%);'>FAX</th><th style ='background:hsl(284,100%,80%);'>LOC HOME</th><th style ='background:hsl(306,100%,80%);'>LOC WORK</th><th  style='background:#000;color:#fff;' >ID</th></tr><tbody id='output'></tbody></table>
     <br>
 <script>
 
+function restart() {
+
+  let text = "Are you sure you want to restart???\n\nOK or Cancel.";
+  if (confirm(text) == true) {
+    text = "You pressed OK!";
+	allnew();
+  } else {
+    text = "You canceled!";
+  }
+}
+
+function allnew() {
+$('#myTable').find("tr:gt(0)").remove();
+	// MYVARIABLES
+howmanylines = 0;
+vcardintoarray;
+allnamesarray = [];
+currentline;
+onlynamesvar = 0;
+testoutput="";
+buildtable = "";
+allphonesarray = [];
+allphones2array = [];
+allcellsarray = [];
+allcells2array = [];
+allvoicesarray = [];
+alladdresshomearray = [];
+alladdressworkarray = [];
+allemailarray = [];
+allphotosarray = [];
+onlyphonesvar = 0;
+onlyphones2var = 0;
+checksum = 0;
+checksum2 = 0;
+phonecheck = 0;
+phonecheck2 = 0;
+myvcard = "";
+phone1check = 0;
+next = 0;
+next2 = 0;
+getallphotolines = 0;
+photobool = 0;
+photochunk = [];
+allbirthdays = [];
+alltitles = [];
+allgenders = [];
+allurls = [];
+skipphotoline1 = 0;
+skipphotolinelast = 0;
+upper = [];
+keeptrackofnewcontacts = 0;
+k = 0;
+}
 function newContact() {
 keeptrackofnewcontacts++;
 var tableRow = document.getElementById("myTable");
 var row = tableRow.insertRow(-1);
+var whatid = "id" + keeptrackofnewcontacts;
+row.setAttribute("id",whatid);
 var cell1 = row.insertCell(0);
 var cell2 = row.insertCell(1);
 var cell3 = row.insertCell(2);
@@ -123,7 +258,7 @@ $("td").click(function(){
 		var url = "URL";
 		var photo="PHOTO";
 	    var following = "";
-
+        var k = 1;
 
 
 
@@ -560,7 +695,7 @@ $("td").click(function(){
 		keeptrackofnewcontacts = k;
 		}
 		
-		document.getElementById("output").innerHTML = "<table id='myTable' class='sortable' ><tr><th style ='background:hsl(0,100%,80%);'>AVATAR</th><th style='background:hsl(24,100%,80%);'>NAME</th><th style ='background:hsl(48,100%,80%);'>TITLE</th><th style ='background:hsl(72,100%,80%);'>GENDER</th><th style ='background:hsl(96,100%,80%);'>BIRTHDAY</th><th style ='background:hsl(118,100%,80%);'>EMAIL</th><th style ='background:hsl(142,100%,80%);'>URL</th><th style ='background:hsl(166,100%,80%);'>CELL</th><th style ='background:hsl(212,100%,80%);'>TEL HOME</th><th style ='background:hsl(236,100%,80%);'>TEL WORK</th><th style ='background:hsl(260,100%,80%);'>FAX</th><th style ='background:hsl(284,100%,80%);'>LOC HOME</th><th style ='background:hsl(306,100%,80%);'>LOC WORK</th><th  style='background:#000;color:#fff;' >ID</th></tr>" + buildtable + "</table>";
+		document.getElementById("output").innerHTML = buildtable;
 		
 		var newTableObject = document.getElementById('myTable');
 		sorttable.makeSortable(newTableObject);
@@ -776,10 +911,13 @@ download('MyNewVCFcard.vcf',readytosave);
 }
 
 function delContact() {
-  let person = prompt("DEL CONTACT ID", "0");
+  let person = prompt("DELETE CONTACT ID", "");
   var exactperson = "#id" + person;
   if (person != null) {
-    $(exactperson).remove();
+   
+   // $(exactperson).empty();
+      $(exactperson).remove();
+	
   }
 
 }
