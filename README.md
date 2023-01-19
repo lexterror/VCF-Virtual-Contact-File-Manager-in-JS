@@ -15,7 +15,7 @@ Features:<br><br>
 -Unlimited number of vCards (As much table data as your browser supports)<br>
 -Profile photo support: Both URLs and BASE64<br>
 -Edit any entries already on display<br>
--Save your edited VCF card(s)<br>
+-Save your edited VCF card(s) directly on your computer<br>
 -Add new contact entries<br>
 -Ability to add/update profile pictures<br>
 -Ability to sort any column in the table alphabetically<br>
