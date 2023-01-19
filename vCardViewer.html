@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>vCard (VCF) Viewer/Editor JS 9.1 FINAL</title>
+<title>vCard (VCF) Viewer/Editor JS X FINAL</title>
 <script src="js/jquery-3.6.3.min.js"></script>
 <script src="js/sorttable.js"></script>
 <script src="js/moment.js"></script>
@@ -17,6 +17,8 @@ td, th {
 	min-width: 64px !important;
 	color: #111;
 	font-size: 12px !important;
+	min-height: 64px !important;
+	height: 64px !important;
 }
 
 tr:nth-child(even) {
@@ -38,12 +40,11 @@ body {
 }
 
 table {
-	left: 0;
-	right: 0;
-	margin: 0 auto;
 	top: 128px;
 	position: absolute;
 	font-family: pragm;
+	table-layout: fixed;
+	width: 980px !important;
 }
 
 table.sortable thead {
@@ -146,11 +147,23 @@ background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.55) 0%
 background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 100%);
 background: radial-gradient(ellipse at center,  rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 100%);  
 }
+input.no-submit {
+  border: 1px solid white;
+  width: 100%;
+  padding: 9px 4px 9px 4px;
+  /* You can use your image but having cleaner code is better, so I suggest saving the file and just linking it*/
+  /*background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --%3E%3Cpath d='M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z'/%3E%3C/svg%3E") ;*/
+  background-image: url("img/glass.svg");
+  background-size: 13px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
 </style>
 </head>
 <body>
+<input type='text' id='myInput' class="no-submit" onkeyup='myFunction()' placeholder='Live Search...' style='left: 50%;transform: translateX(-50%);z-index:999999;font-size: 16px; font-family:wallhunter; color:dodgerblue;height:24px;border:1px solid dodgerblue;border-radius:0px;text-shadow: 0 0 5px #fff;text-align:center;width:200px;height:24px;position:absolute;'></input>
 <div id="dialg" title="Dialog Title" style="">&copy; 2023 Created by: Alex Terranova<br>electrolex@yahoo.com<br>Feel free to distribute and modify.<br>Thank you!</div>
-<div class="carbonclass" style="top:0px;height:96px;width:980px;color:#fff;position:absolute;border-radius: 0px 0px 0 0;border-top: 32px solid #000;">
+<div class="carbonclass" style="top:0px;height:64px;width:980px;color:#fff;position:absolute;border-radius: 0px 0px 25px 25px;border-top: 32px solid #000;">
 		</div>
 <div style="background:#fff;top:58px;height:64px;width:860px;color:#fff;position:absolute;border-radius: 5px 5px 5px 5px;left: 50%;transform: translateX(-50%);">
 		</div>
@@ -168,8 +181,8 @@ background: radial-gradient(ellipse at center,  rgba(255,255,255,0.55) 0%,rgba(2
 	    <button id="restart" style="top: 64px; width: 120px;height: 50px;float:left;" onclick="restart();">Restart</button>
 		</div>
 
-		<table id='myTable' class='sortable' ><tr><th style ='background:hsl(0,100%,80%);'>AVATAR</th><th style='background:hsl(24,100%,80%);'>NAME</th><th style ='background:hsl(48,100%,80%);'>TITLE</th><th style ='background:hsl(72,100%,80%);'>GENDER</th><th style ='background:hsl(96,100%,80%);'>BIRTHDAY</th><th style ='background:hsl(118,100%,80%);'>EMAIL</th><th style ='background:hsl(142,100%,80%);'>URL</th><th style ='background:hsl(166,100%,80%);'>CELL</th><th style ='background:hsl(212,100%,80%);'>TEL HOME</th><th style ='background:hsl(236,100%,80%);'>TEL WORK</th><th style ='background:hsl(260,100%,80%);'>FAX</th><th style ='background:hsl(284,100%,80%);'>LOC HOME</th><th style ='background:hsl(306,100%,80%);'>LOC WORK</th><th  style='background:#000;color:#fff;' >ID</th></tr><tbody id='output'></tbody></table>
-    <br>
+		<table id='myTable' class='sortable' ><thead><tr><th style ='background:hsl(0,100%,80%);'>AVATAR</th><th style='background:hsl(24,100%,80%);'>NAME</th><th style ='background:hsl(48,100%,80%);'>TITLE</th><th style ='background:hsl(72,100%,80%);'>GENDER</th><th style ='background:hsl(96,100%,80%);'>BIRTHDAY</th><th style ='background:hsl(118,100%,80%);'>EMAIL</th><th style ='background:hsl(142,100%,80%);'>URL</th><th style ='background:hsl(166,100%,80%);'>CELL</th><th style ='background:hsl(212,100%,80%);'>TEL HOME</th><th style ='background:hsl(236,100%,80%);'>TEL WORK</th><th style ='background:hsl(260,100%,80%);'>FAX</th><th style ='background:hsl(284,100%,80%);'>LOC HOME</th><th style ='background:hsl(306,100%,80%);'>LOC WORK</th><th  style='background:#000;color:#fff;' >ID</th></tr></thead><tbody id='output'></tbody></table>
+
       <style>  
          .ui-widget-header,.ui-state-default, ui-button{  
             background:dodgerblue;  
@@ -186,7 +199,7 @@ background: radial-gradient(ellipse at center,  rgba(255,255,255,0.55) 0%,rgba(2
                buttons: {  
                   OK: function() {$(this).dialog("close");}  
                },  
-               title: "About VCF Viewer JS 9.1",  
+               title: "About VCF Viewer JS X",  
                position: {  
                   my: "center",  
                   at: "center"  
@@ -303,7 +316,7 @@ $("td").click(function(){
 
 
 </script>
-    <pre id="output"></pre>
+
 </body>
     <script type="text/javascript">
 	
@@ -761,15 +774,15 @@ $("td").click(function(){
 		}
 		
 		document.getElementById("output").innerHTML = buildtable;
-		
+		/*
 		var newTableObject = document.getElementById('myTable');
 		sorttable.makeSortable(newTableObject);
-		
+		*/
 		//END OF APP
 			}
 		fr.readAsText(this.files[0]);	
 
-        })
+        });
 
      /*
 	 
@@ -986,5 +999,28 @@ function delContact() {
 	
   }
 
+}
+</script>
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 1; i < table.rows.length; i++) 
+  {
+      tr[i].style.display = "none";
+      for (j = 0; j < 15; j++)
+	  {
+	     var findthis = "td:nth-child(" + j + ")";
+		 var getcurrenttd = $('#myTable tr').eq(i).find(findthis).text();
+	     if (getcurrenttd.includes(filter))
+		 {
+         tr[i].style.display = "block";
+		 }
+      } 
+   }       
 }
 </script>
