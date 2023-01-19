@@ -5,7 +5,7 @@ A VCF (Virtual Card Format) Viewer/Editor/Creator in JavaScript<br><br>
 
 A Simple VCF (Virtual Card Format) Viewer/Editor/Creator in JavaScript (VCF versions 2.1/3.0/4.0)<br><br>
 
-Live demo at: http://alext.rf.gd/vCardViewer.html 
+Live demo at: http://alext.rf.gd/vCardViewer.html <br><br>
 
 Features:<br><br>
 
