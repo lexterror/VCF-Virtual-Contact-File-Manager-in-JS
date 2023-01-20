@@ -7,7 +7,7 @@ A Simple VCF (Virtual Contact File) Viewer/Editor/Creator in JavaScript (VCF ver
 What is a VCF file?<br><br>
 A VCF file is a standard file format for storing contact information for one or more persons or a business. It typically includes a name, address, phone number, email address, and other contact information. VCF files also support custom fields, images, and other types of media.<br><br>
 
-Live demo at: http://alext.rf.gd/vCardViewer.html <br><br>
+Live demo at: https://virtual-contact-file-manager.sourceforge.io/ <br><br>
 
 Features:<br><br>
 
