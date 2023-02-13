@@ -26,6 +26,11 @@ Features:<br><br>
 -Search bar feature to find contacts easily<br>
 -Create a VCF from scratch!!!<br><br>
 
+
+What needs to be done: Fix when creating a new vcf file and loading a vcf file. Will be fixed soon!
+
+
+
 Thank you!<br><br>
 
 
