@@ -1,0 +1,1160 @@
+<html>
+<head>
+<title>vCard (VCF) Viewer/Editor JS X FINAL 4.1s</title>
+<script src="js/jquery-3.6.3.min.js"></script>
+<script src="js/sorttable.js"></script>
+<script src="js/moment.js"></script>
+<script src="js/printThis.js"></script>
+<script src="js/jquery-ui.js"></script>
+<link rel="stylesheet" href="js/jquery-ui.css">
+<meta charset="UTF-8">
+<style>
+td, th {
+
+	word-break:break-all;
+	width:auto !important;
+	max-width: auto !important;
+	min-width: auto !important;
+	color: #111;
+	font-size: 12px !important;
+	min-height: 32px !important;
+	height:32px !important;
+	border: 1px solid #aaa;
+}
+
+tr:nth-child(even) {
+	background: #ffffff;
+}
+
+tr:nth-child(odd) {
+	background: #ffffff;
+}
+
+#photo td {
+
+}
+
+html {
+
+	min-width: 900px !important;
+}
+body {
+
+	max-width: 100%;
+	width: 100%;
+	margin: 0 auto;
+	background: #000;
+	min-width: 900px !important;
+}
+
+table {
+	top: 128px;
+	position: absolute;
+	font-family: pragm;
+	table-layout: fixed;
+	width: 100%!important;
+    left: 0;
+	z-index:0;
+	background: #fff;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+table.sortable thead {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+  @font-face {
+  font-family: 'pragm';
+  src: url('fonts/PragmataPro.eot'); /* IE9 Compat Modes */
+  src: url('fonts/PragmataPro.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('fonts/PragmataPro.woff2') format('woff2'), /* Super Modern Browsers */
+  url('fonts/PragmataPro.woff') format('woff'), /* Pretty Modern Browsers */
+  url('fonts/PragmataPro.ttf')  format('truetype'); /* Safari, Android, iOS */
+  font-size: 100%;
+  }
+  
+button:hover {
+
+background: rgba(255,255,255,0.25);
+
+}
+
+
+button {
+
+	color:#ffffff;
+	text-align:center;
+	font-weight:bold;
+
+	
+	text-shadow: /* Simulating Text Stroke */
+        -1px -1px 0 #000, 
+        1px -1px 0 #000, 
+        -1px 1px 0 #000, 
+        1px 1px 0 #000;
+	
+	border: 1px solid rgba(0,0,0,0.5);
+	border-bottom: 3px solid rgba(0,0,0,0.5);
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	
+	background: rgba(0,0,0,0.25);
+
+    -o-box-shadow: 
+        0 2px 8px rgba(0,0,0,0.5),
+        inset 0 1px rgba(255,255,255,0.3),
+        inset 0 10px rgba(255,255,255,0.2),
+        inset 0 10px 20px rgba(255,255,255,0.25),
+        inset 0 -15px 30px rgba(0,0,0,0.3);
+
+    -webkit-box-shadow: 
+        0 2px 8px rgba(0,0,0,0.5),
+        inset 0 1px rgba(255,255,255,0.3),
+        inset 0 10px rgba(255,255,255,0.2),
+        inset 0 10px 20px rgba(255,255,255,0.25),
+        inset 0 -15px 30px rgba(0,0,0,0.3);
+
+    -moz-box-shadow:
+        0 2px 8px rgba(0,0,0,0.5),
+        inset 0 1px rgba(255,255,255,0.3),
+        inset 0 10px rgba(255,255,255,0.2),
+        inset 0 10px 20px rgba(255,255,255,0.25),
+        inset 0 -15px 30px rgba(0,0,0,0.3);
+	
+	box-shadow: 
+        0 2px 8px rgba(0,0,0,0.5), /* Exterior Shadow */
+        inset 0 1px rgba(255,255,255,0.3), /* Top light Line */
+        inset 0 10px rgba(255,255,255,0.2), /* Top Light Shadow */
+        inset 0 10px 20px rgba(255,255,255,0.25), /* Sides Light Shadow */
+        inset 0 -15px 30px rgba(0,0,0,0.3); /* Dark Background */
+
+    cursor: pointer;
+	display: inline-block;
+	text-decoration: none;
+}
+
+
+.carbonclass {
+width: 100%;
+height: 96px;
+margin: 0 auto;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+-webkit-box-shadow: 0 0 25px 0 #fff;
+background: #333333;
+background: -moz-linear-gradient(-45deg,  #333333 0%, #333333 24%, #555555 25%, #333333 26%, #333333 50%, #333333 74%, #555555 75%, #333333 76%, #333333 100%);
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#333333), color-stop(24%,#333333), color-stop(25%,#555555), color-stop(26%,#333333), color-stop(50%,#333333), color-stop(74%,#333333), color-stop(75%,#555555), color-stop(76%,#333333), color-stop(100%,#333333));
+background: -webkit-linear-gradient(-45deg,  #333333 0%,#333333 24%,#555555 25%,#333333 26%,#333333 50%,#333333 74%,#555555 75%,#333333 76%,#333333 100%);
+background: -o-linear-gradient(-45deg,  #333333 0%,#333333 24%,#555555 25%,#333333 26%,#333333 50%,#333333 74%,#555555 75%,#333333 76%,#333333 100%);
+background: -ms-linear-gradient(-45deg,  #333333 0%,#333333 24%,#555555 25%,#333333 26%,#333333 50%,#333333 74%,#555555 75%,#333333 76%,#333333 100%);
+background: linear-gradient(135deg,  #333333 0%,#333333 24%,#555555 25%,#333333 26%,#333333 50%,#333333 74%,#555555 75%,#333333 76%,#333333 100%);
+background-size: 10px 10px;
+}
+
+
+.carbonclass > div {
+width: inherit;
+height: inherit;
+background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 100%);
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,0.55)), color-stop(100%,rgba(255,255,255,0)));
+background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 100%);
+background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 100%);
+background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 100%);
+background: radial-gradient(ellipse at center,  rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 100%);  
+}
+input.no-submit {
+  width: 100%;
+  padding: 9px 4px 9px 4px;
+  /* You can use your image but having cleaner code is better, so I suggest saving the file and just linking it*/
+  /*background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --%3E%3Cpath d='M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z'/%3E%3C/svg%3E") ;*/
+  font-family: pragm !important;
+  background-image: url("img/glass.svg");
+  background-size: 13px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+
+button {
+
+  font-family: pragm !important;
+}
+
+#trapezoid {
+ height: 0px;
+ width: 300px;
+ border-top: 32px solid #fff;
+ border-left: 32px solid transparent;
+ border-right: 32px solid transparent;
+ top:0px;
+ position:fixed;
+ left: 50%;
+ transform: translateX(-50%);
+ z-index: 99;
+ 
+}
+
+#myTable tbody {
+	top: 64px !important;
+}
+
+</style>
+</head>
+<body>
+<div id="logo" style="width:48px;height:48px;position:fixed;left:146px;top:5px;z-index:9999;opacity:0.9;">
+<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gU3ZnIFZlY3RvciBJY29ucyA6IGh0dHA6Ly93d3cub25saW5ld2ViZm9udHMuY29tL2ljb24gLS0+Cgo8c3ZnCiAgIHZlcnNpb249IjEuMSIKICAgeD0iMHB4IgogICB5PSIwcHgiCiAgIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiCiAgIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDEwMDAgMTAwMCIKICAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIKICAgaWQ9InN2ZzQyIgogICBzb2RpcG9kaTpkb2NuYW1lPSJ2Y2Zsb2dvLnN2ZyIKICAgaW5rc2NhcGU6dmVyc2lvbj0iMS4yLjIgKDczMmEwMWRhNjMsIDIwMjItMTItMDkpIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzCiAgIGlkPSJkZWZzNDYiIC8+PHNvZGlwb2RpOm5hbWVkdmlldwogICBpZD0ibmFtZWR2aWV3NDQiCiAgIHBhZ2Vjb2xvcj0iI2ZmZmZmZiIKICAgYm9yZGVyY29sb3I9IiMwMDAwMDAiCiAgIGJvcmRlcm9wYWNpdHk9IjAuMjUiCiAgIGlua3NjYXBlOnNob3dwYWdlc2hhZG93PSIyIgogICBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMC4wIgogICBpbmtzY2FwZTpwYWdlY2hlY2tlcmJvYXJkPSIwIgogICBpbmtzY2FwZTpkZXNrY29sb3I9IiNkMWQxZDEiCiAgIHNob3dncmlkPSJmYWxzZSIKICAgaW5rc2NhcGU6em9vbT0iMC4xODI3ODcxIgogICBpbmtzY2FwZTpjeD0iLTI0My40NTI2MiIKICAgaW5rc2NhcGU6Y3k9IjY0NS41NTk3NyIKICAgaW5rc2NhcGU6d2luZG93LXdpZHRoPSIxMzY2IgogICBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSI2OTciCiAgIGlua3NjYXBlOndpbmRvdy14PSItOCIKICAgaW5rc2NhcGU6d2luZG93LXk9Ii04IgogICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIxIgogICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJzdmc0MiIgLz4KPG1ldGFkYXRhCiAgIGlkPSJtZXRhZGF0YTIiPiBTdmcgVmVjdG9yIEljb25zIDogaHR0cDovL3d3dy5vbmxpbmV3ZWJmb250cy5jb20vaWNvbiA8L21ldGFkYXRhPgo8ZwogICBpZD0iZzQwIgogICBzdHlsZT0iZmlsbDojZjJmMmYyIj48ZwogICAgIGlkPSJnOCIKICAgICBzdHlsZT0iZmlsbDojZjJmMmYyIj48cGF0aAogICAgICAgZD0iTTYwNy44LDkwNS40YzEuMywwLjEsMi42LDAuMiwzLjksMC4yaDI5Ni43YzM0LjcsMCw2Mi45LTI4LjIsNjIuOS02Mi45VjE1NC44YzAtMzQuNy0yOC4yLTYyLjktNjIuOS02Mi45SDYxMS43Yy0xLjMsMC0yLjYsMC4xLTMuOSwwLjJWMTBMMjguNyw4Ny4zdjgyMy40TDYwNy44LDk5MFY5MDUuNHogTTYwNy44LDYwMy4xaDgyLjd2LTEzLjdoLTgyLjd2LTMzLjVoODIuN1Y1NDJoLTgyLjd2LTMxLjloODIuN3YtMTMuOGgtODIuN3YtMzIuMWg4Mi43di0xMy43aC04Mi43di00Mi41aDI3Ni42YzAuNiwwLDEuMSwwLjUsMS4xLDEuMnYyNDAuOWMwLDAuNi0wLjUsMS4xLTEuMSwxLjFINjA3LjhWNjAzLjF6IE02MTEuNywxMjcuOWgyOTYuN2MxNC45LDAsMjcsMTIuMSwyNywyN3Y2ODcuOGMwLDE0LjktMTIuMSwyNy0yNywyN0g2MTEuN2MtMS4zLDAtMi42LTAuMi0zLjktMC40VjY2Mi43aDI3Ni42YzcsMCwxMi42LTUuNiwxMi42LTEyLjZWNDA5LjJjMC03LTUuNy0xMi42LTEyLjYtMTIuNkg2MDcuOFYxMjguM0M2MDkuMSwxMjguMSw2MTAuMywxMjcuOSw2MTEuNywxMjcuOXogTTE3Miw2MTMuOWwtNDUuMS0yLjNsLTUyLjQtMTg0bDQwLjMtMS4xbDIwLjQsNzguMmM1LjgsMjIuMiwxMSw0My42LDE1LjEsNjcuMWwwLjgsMGM0LjMtMjIuNCw5LjctNDQuNiwxNS42LTY2LjFsMjIuMy04MS4zbDQzLjItMS4yTDE3Miw2MTMuOXogTTM0OC41LDU4OGMxMy44LDAuNSwyOS4zLTEuOSwzOC40LTUuM2w3LjEsMzYuOGMtOC42LDMuOS0yNy44LDcuNC01Mi4zLDYuMmMtNjcuMy0zLjYtMTAwLjUtNDcuMi0xMDAuNS0xMDIuN2MwLTY2LjQsNDUuNy0xMDQuNywxMDUtMTA2LjVjMjMuNy0wLjcsNDIsMy43LDUwLjQsNy43bC05LjUsMzcuM2MtOS41LTMuOC0yMi42LTcuMy0zOC43LTcuMWMtMzUuNiwwLjUtNjIuNSwyMi40LTYyLjUsNjYuNUMyODUuNyw1NjAuNywzMDguNiw1ODYuNSwzNDguNSw1ODh6IE01NjIuNSw0NTQuNmwtODcuOSwxLjJ2NDguN2w4MiwwLjR2NDAuNWwtODItMS42djg1LjhsLTQ5LjMtMi42VjQxNy42bDEzNy4yLTMuOVY0NTQuNnoiCiAgICAgICBpZD0icGF0aDQiCiAgICAgICBzdHlsZT0iZmlsbDojZjJmMmYyIiAvPjxwYXRoCiAgICAgICBkPSJNODQ0LjMsNTM2LjhsLTI3LjItMTQuM2MwLDAtMS40LTEuNy00LTMuOGM1LjMtNiw5LjItMTQuMSwxMC4yLTIyLjFjMC44LTAuNiwyLjEtMS45LDIuNi01YzAsMCwzLjItMTEuNi0xLjUtOS40YzMuMy0xNy42LDAuOC0yMy43LDAuOC0yMy43Yy0zLjQtMTEuNi0zLjctMTQuMi0xNS45LTE3LjNjLTEyLjItMy4xLTI3LjUsMS43LTI3LjUsMS43Yy0xMC4xLDMtMTQuMyw4LjctMTQuMyw4LjdjLTguOSwxMC00LjMsMjYuMi0yLjksMzAuM2MtNC0xLjItMSw5LjYtMSw5LjZjMC41LDMuMSwxLjgsNC41LDIuNiw1YzEuMSw3LjgsNS40LDE2LjMsMTEuMiwyMi41Yy0xLjMsMS0yLjUsMi0zLjgsMy4yYzAsMC0wLjEsNC40LTEyLjcsOC45YzAsMC0yMy42LDcuNC0yNy40LDE2YzAsMC0xMi45LDI5LjMtOS45LDU1LjNjMCwwLDAuMSwyLjIsNC40LDQuOWMwLDAsMjkuNywxMi40LDcwLjQsMTEuNmMwLDAsMzkuNi0yLDY1LTEzLjNjMCwwLDMuNi0wLjgsMy43LTkuMWMwLDAtMS4zLTM2LjMtMTIuMy01Mi42Qzg1NC45LDU0NCw4NTEuNyw1MzkuNyw4NDQuMyw1MzYuOHoiCiAgICAgICBpZD0icGF0aDYiCiAgICAgICBzdHlsZT0iZmlsbDojZjJmMmYyIiAvPjwvZz48ZwogICAgIGlkPSJnMTAiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMTIiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMTQiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMTYiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMTgiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMjAiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMjIiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMjQiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMjYiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMjgiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMzAiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMzIiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMzQiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMzYiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48ZwogICAgIGlkPSJnMzgiCiAgICAgc3R5bGU9ImZpbGw6I2YyZjJmMiIgLz48L2c+Cjwvc3ZnPgo=" width="48px" height="48px">
+</div>
+<div style="font-family: pragm;width:140px;height:48px;left:0;top:5px; color: #fff;font-size: 10px;line-height:10px;z-index:999;position:fixed;border-right:2px solid #aaa;opacity:0.9;">
+<span style="margin-left: 5px;float:left;margin-top: 5px;text-align: right;">VCF Viewer/Editor/Creator<br>Open-Source<br>Built with JavaScript<br>Available on <a href="https://github.com/lexterror/VCF-Virtual-Card-Viewer-JS" style="color:#fff;" target="_blank">GitHub</a></span>
+</div>
+<div id="trapezoid"></div>
+<input type='text' id='myInput' class="no-submit" onkeyup='myFunction()' placeholder='Live Search...' style='z-index:999999;font-size: 12px; font-family:pragm; color:dodgerblue;height:32px;text-shadow: 0 0 5px #fff;text-align:center;width:245px;height:32px; left: 50%;transform: translateX(-50%);position:fixed;top: 0;z-index:99;border:none;border:0;outline:none;'>
+
+<div id="dialg" title="Dialog Title" style="">&copy; 2023 Created by: Alex Terranova<br>electrolex@yahoo.com<br>Feel free to distribute and modify.<br>Thank you!</div>
+<div class="carbonclass" style="top:0px;height:128px;width:100%;color:#fff;position:fixed;border-radius: 0px 0px 0px 0px; z-index: 9;">
+		</div>
+<div style="background:linear-gradient(rgba(0,0,0,0.6),rgba(111,111,111,0.5));top:0px;height:57px;width:100%;color:#000;position:fixed;border-radius: 0px;left: 50%;transform: translateX(-50%); z-index: 9;border-bottom: 1px solid #666;">
+		</div>
+<div style="background:linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0));top:58px;height:70px;width:100%;color:#000;position:fixed;border-radius: 0px;left: 50%;transform: translateX(-50%); z-index: 9;border-top: 2px solid rgba(0,0,0,0.8);">
+		</div>
+  <label for="vcf" style="left:0;right:0;margin: 0 auto;text-align:center;position: fixed;top: 0;font-family:arial; z-index: 9;"></label>
+
+    <input type="file" name="inputfile"
+            id="inputfile" style="position: fixed; top: 32px;left: 50%;transform: translateX(-50%);display:none; z-index: 9;">
+	<div style="left: 50%;transform: translateX(-50%);width:960px; top: 64px;position: fixed;height: 50px; z-index: 9;">
+	    <button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="saveit();">Save VCF File</button>
+		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="newContact();">New Contact</button>
+		<button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="document.getElementById('inputfile').click();" />Load VCF File</button>
+		<button id ="del" style="top: 64px; width: 120px;height: 50px;float:left;" onclick="delContact();">Delete (Off)</button>
+	    <button style="top: 64px; width: 120px;height: 50px;float:left;" onclick="printit();">Print</button>
+	    <button id="opener" style="top: 64px; width: 120px;height: 50px;float:left;">About</button>
+	    <button id="restart" style="top: 64px; width: 120px;height: 50px;float:left;" onclick="restart();">Restart</button>
+	    <button id="scrolling" style="top: 64px; width: 120px;height: 50px;float:left;" onclick="scrollit();">Scroll (Off)</button>
+		</div>
+        <div id="workspace" style="width:100%;position:absolute;left: 50%;transform: translateX(-50%);height:100%;overflow-y:hidden;overflow-x:hidden;">
+		<table id='myTable' class='sortable' ><thead style=" z-index: 9;"><tr><th style ='background:hsl(0,100%,80%);'>AVATAR</th><th style='background:hsl(24,100%,80%);'>NAME</th><th style ='background:hsl(48,100%,80%);'>TITLE</th><th style ='background:hsl(72,100%,80%);'>GENDER</th><th style ='background:hsl(96,100%,80%);'>BIRTHDAY</th><th style ='background:hsl(118,100%,80%);'>EMAIL</th><th style ='background:hsl(142,100%,80%);'>URL</th><th style ='background:hsl(166,100%,80%);'>CELL</th><th style ='background:hsl(212,100%,80%);'>TEL HOME</th><th style ='background:hsl(236,100%,80%);'>TEL WORK</th><th style ='background:hsl(260,100%,80%);'>FAX</th><th style ='background:hsl(284,100%,80%);'>LOC HOME</th><th style ='background:hsl(306,100%,80%);'>LOC WORK</th><th  style='background:#000;color:#fff;' >ID</th></tr></thead><tbody id='output' style="overflow-x:hidden;"></tbody></table>
+		</div>
+      <style>  
+         .ui-widget-header,.ui-state-default, ui-button{  
+            background:dodgerblue;  
+            border: 2px solid deeppink;  
+            color: white;  
+            font-weight: bold;  
+		
+         }  
+      </style> 
+<script>  
+var getmarginloc = "";
+function nextdata() {
+
+tablemargin = tablemargin - 117;
+getmarginloc = tablemargin + "px";
+$("#myTable").css({marginLeft:getmarginloc});//works
+
+}
+         $(function() {  
+            $( "#dialg" ).dialog({  
+               autoOpen: false,   
+               buttons: {  
+                  OK: function() {$(this).dialog("close");}  
+               },  
+               title: "About VCF Viewer JS X 4.1s",  
+               position: {  
+                  my: "center",  
+                  at: "center"  
+               }  
+            });  
+            $( "#opener" ).click(function() {  
+               $( "#dialg" ).dialog( "open" );  
+            });  
+         });  
+      </script>  
+<script>
+
+function scrollit() {
+
+
+if (scroll%2 == 0)
+{
+    $('#workspace').css('overflow-y', 'scroll');		
+    $('#workspace').css('overflow-x', 'scroll');
+	$('#scrolling').text("Scroll (On)");
+}
+if (scroll%2 != 0)
+{
+    $('#workspace').css('overflow-y', 'hidden');
+    $('#workspace').css('overflow-x', 'hidden');	
+	$('#scrolling').text("Scroll (Off)");
+
+}
+scroll++;
+
+}
+
+function printit() {
+$("#myTable").printThis();
+}
+function restart() {
+
+  let text = "Are you sure you want to restart???\n\nOK or Cancel.";
+  if (confirm(text) == true) {
+    text = "You pressed OK!";
+	allnew();
+  } else {
+    text = "You canceled!";
+  }
+}
+
+function allnew() {
+$('#myTable').find("tr:gt(0)").remove();
+	// MYVARIABLES
+howmanylines = 0;
+vcardintoarray;
+allnamesarray = [];
+currentline;
+onlynamesvar = 0;
+testoutput="";
+buildtable = "";
+allphonesarray = [];
+allphones2array = [];
+allcellsarray = [];
+allcells2array = [];
+allvoicesarray = [];
+alladdresshomearray = [];
+alladdressworkarray = [];
+allemailarray = [];
+allphotosarray = [];
+onlyphonesvar = 0;
+onlyphones2var = 0;
+checksum = 0;
+checksum2 = 0;
+phonecheck = 0;
+phonecheck2 = 0;
+myvcard = "";
+phone1check = 0;
+next = 0;
+next2 = 0;
+getallphotolines = 0;
+photobool = 0;
+photochunk = [];
+allbirthdays = [];
+alltitles = [];
+allgenders = [];
+allurls = [];
+skipphotoline1 = 0;
+skipphotolinelast = 0;
+upper = [];
+keeptrackofnewcontacts = 0;
+k = 1;
+newtbodyexists = 0;
+tablemargin = 0;
+
+}
+function newContact() {
+
+
+if (newtbodyexists == 0)
+{
+tableRow = document.getElementById("myTable");
+tbody = tableRow.createTBody();
+newtbodyexists = 1;
+}
+var row = tbody.insertRow(-1);
+var whatid = "id" + keeptrackofnewcontacts;
+row.setAttribute("id",whatid);
+var cell1 = row.insertCell(0);
+var cell2 = row.insertCell(1);
+var cell3 = row.insertCell(2);
+var cell4 = row.insertCell(3);
+var cell5 = row.insertCell(4);
+var cell6 = row.insertCell(5);
+var cell7 = row.insertCell(6);
+var cell8 = row.insertCell(7);
+var cell9 = row.insertCell(8);
+var cell10 = row.insertCell(9);
+var cell11 = row.insertCell(10);
+var cell12 = row.insertCell(11);
+var cell13 = row.insertCell(12);
+var cell14 = row.insertCell(13);
+
+cell1.innerHTML = "<td id='photo' contenteditable='false !important'>" + 
+		"<input id='ava" + keeptrackofnewcontacts + "' type='file' style='display:none; max-width:64px !important;' onchange='changephoto(this.files[0]," + keeptrackofnewcontacts +");' accept='image/*'><img onclick='document.getElementById(\"ava" + keeptrackofnewcontacts + "\").click();' src='" + allphotosarray[keeptrackofnewcontacts] + "' width='64' height='64' id='pic" + keeptrackofnewcontacts + "'>" + "</td>";
+cell2.innerHTML = "<td  contenteditable='true' style='background: linear-gradient(-135deg,#000 5px,#fff 0); color: #000 !important;'>" + allnamesarray[keeptrackofnewcontacts] + "</td>";
+cell3.innerHTML = "<td contenteditable='true' >" + alltitles[keeptrackofnewcontacts] + "</td>";
+cell4.innerHTML = "<td contenteditable='true' >" + allgenders[keeptrackofnewcontacts] + "</td>";
+cell5.innerHTML = "<td contenteditable='true' >" + allbirthdays[keeptrackofnewcontacts] + "</td>";
+cell6.innerHTML = "<td contenteditable='true' >" + allemailarray[keeptrackofnewcontacts] + "</td>";
+cell7.innerHTML = "<td contenteditable='true' >" + allurls[keeptrackofnewcontacts] + "</td>";
+cell8.innerHTML = "<td contenteditable='true' >" + allcellsarray[keeptrackofnewcontacts] + "</td>"; 
+cell9.innerHTML = "<td contenteditable='true' >" + allphonesarray[keeptrackofnewcontacts] + "</td>";
+cell10.innerHTML = "<td contenteditable='true' >" + allphones2array[keeptrackofnewcontacts] + "</td>";
+cell11.innerHTML = "<td contenteditable='true' >" + allvoicesarray[keeptrackofnewcontacts] + "</td>";
+cell12.innerHTML = "<td contenteditable='true' >" + alladdresshomearray[keeptrackofnewcontacts] + "</td>";
+cell13.innerHTML = "<td contenteditable='true' >" + alladdressworkarray[keeptrackofnewcontacts] + "</td>";
+cell14.innerHTML = "<td contenteditable='true' >" + "<button style='width:100%;height:100%' onclick='delContactPress(" + keeptrackofnewcontacts + ")'>DELETE</button>" + "</td>";
+
+
+$("td").click(function(){
+    if($(this).attr("contentEditable") == true){
+        $(this).attr("contentEditable","false");
+    } else {
+        $(this).attr("contentEditable","true");
+    }
+})
+keeptrackofnewcontacts++;
+}
+
+
+</script>
+
+</body>
+    <script type="text/javascript">
+	
+
+		var namecode = "N:";
+		var emailcode = "EMAIL";
+		var cell1code = "TEL;CELL";
+		var cell2code = "TEL;CELL";
+		var phone1code = "TEL;HOME";
+		var phone2code = "TEL;WORK";
+		var phone3code = "TEL;VOICE";
+		var addressworkcode = "ADR;WORK";
+		var addresshomecode = "ADR;HOME";	
+		var birthday = "BDAY:";
+		var gender = "GENDER:";
+		var title = "TITLE:";
+		var url = "URL";
+		var photo="PHOTO";
+	    var following = "";
+        var k = 1;
+		var tableRow = "";
+		var tbody = "";
+
+
+	// MYVARIABLES
+		var howmanylines = 0;
+		var vcardintoarray;
+		var allnamesarray = [];
+		var currentline;
+		var onlynamesvar = 0;
+		var testoutput="";
+		var buildtable = "";
+		var allphonesarray = [];
+		var allphones2array = [];
+		var allcellsarray = [];
+		var allcells2array = [];
+		var allvoicesarray = [];
+		var alladdresshomearray = [];
+		var alladdressworkarray = [];
+		var allemailarray = [];
+		var allphotosarray = [];
+		var onlyphonesvar = 0;
+		var onlyphones2var = 0;
+		var checksum = 0;
+		var checksum2 = 0;
+		var phonecheck = 0;
+		var phonecheck2 = 0;
+		var myvcard = "";
+		var phone1check = 0;
+		var next = 0;
+		var next2 = 0;
+		var getallphotolines = 0;
+		var photobool = 0;
+		var photochunk = [];
+        var allbirthdays = [];
+		var alltitles = [];
+		var allgenders = [];
+		var allurls = [];
+		var skipphotoline1 = 0;
+		var skipphotolinelast = 0;
+		var upper = [];
+		var keeptrackofnewcontacts = 1;
+		var newtbodyexists = 0;
+		var deletebool = 0;
+	    var tablemargin = 0;
+		var scroll=0;
+   
+		document.getElementById('inputfile').addEventListener('change', function() {
+        
+		
+		//BEGINNING OF APP     
+       
+
+
+	   var fr=new FileReader();
+            fr.onload=function(){
+                myvcard = fr.result;
+
+		vcardintoarray = myvcard.split(/\r\n|\r|\n/);
+		
+		upper = vcardintoarray.map(element => {
+			return element.toUpperCase();
+		});
+	    howmanylines = myvcard.split(/\r\n|\r|\n/).length;
+
+    var storm = keeptrackofnewcontacts - 1;
+	  onlynamesvar = storm;
+		// GET ALL NAMES
+		for (i=0; i < howmanylines; i++)
+		{
+		
+		
+		currentline = upper[i];
+		if (currentline.startsWith("BEGIN:"))
+		{
+	  
+		onlynamesvar++;	
+		if (currentline.startsWith(emailcode) == false)
+		allemailarray[onlynamesvar] = " ";
+		if (currentline.startsWith(addresshomecode) == false)
+		alladdresshomearray[onlynamesvar] = " ";
+		if (currentline.startsWith(addressworkcode) == false)
+		alladdressworkarray[onlynamesvar] = " ";
+		if (currentline.startsWith(phone1code) == false)
+		allphonesarray[onlynamesvar] = " ";
+		if (currentline.startsWith(phone2code) == false)
+		allphones2array[onlynamesvar] = " ";
+		if (currentline.startsWith(phone3code) == false)
+		allvoicesarray[onlynamesvar] = " ";
+		if (currentline.startsWith(cell1code) == false)
+		allcellsarray[onlynamesvar] = " ";
+		if (currentline.startsWith(cell2code) == false)
+		allcells2array[onlynamesvar] = " ";	
+		if (currentline.startsWith(gender) == false)
+		allgenders[onlynamesvar] = " ";
+		if (currentline.startsWith(title) == false)
+		alltitles[onlynamesvar] = " ";
+		if (currentline.startsWith(birthday) == false)
+		allbirthdays[onlynamesvar] = " ";
+		if (currentline.startsWith(url) == false)
+		allurls[onlynamesvar] = " ";		
+			
+  
+		}
+
+		// GET VCF VERSION TYPE
+        if (currentline.startsWith("VERSION:"))
+		{
+		var getversionexact = currentline.replace("VERSION:", "");
+		if (getversionexact == "2.1")
+		{
+		namecode = "N:";
+	    emailcode = "EMAIL";
+		cell1code = "TEL;CELL";
+		cell2code = "TEL;CELL";
+		phone1code = "TEL;HOME";
+		phone2code = "TEL;WORK";
+		phone3code = "TEL;VOICE";
+		addressworkcode = "ADR;WORK";
+		addresshomecode = "ADR;HOME";		
+		}
+		if (getversionexact == "3.0")
+		{
+		namecode = "N:";
+	    emailcode = "EMAIL";
+		cell1code = "TEL;TYPE=CELL";
+		cell2code = "TEL;TYPE=CELL";
+		phone1code = "TEL;TYPE=HOME";
+		phone2code = "TEL;TYPE=WORK";
+		phone3code = "TEL;TYPE=VOICE";
+		addressworkcode = "ADR;TYPE=WORK";
+		addresshomecode = "ADR;TYPE=HOME";			
+		}
+		if (getversionexact == "4.0")
+		{
+		namecode = "N:";
+	    emailcode = "EMAIL";
+		cell1code = "TEL;TYPE#CELL";
+		cell2code = "TEL;TYPE#CELL";
+		phone1code = "TEL;TYPE#HOME";
+		phone2code = "TEL;TYPE#WORK";
+		phone3code = "TEL;TYPE#VOICE";
+		addressworkcode = "ADR;TYPE#WORK";
+		addresshomecode = "ADR;TYPE#HOME";			
+		}
+		}
+		
+		// GET ALL NAMES NUMBERS
+		if (currentline.startsWith(namecode) == true)
+		{
+			var nametemp = currentline.replace('N:', '');
+			var nametemp2 = nametemp.replaceAll(';', ' ');
+			allnamesarray[onlynamesvar] = nametemp2;
+		
+	
+	
+			
+		}
+		// GET ALL PHOTOS
+		
+		if (currentline.startsWith(photo) == true)
+		{
+			//var Y = "PHOTO;ENCODING=BASE64;JPEG:";
+			//var X = "END:VCARD";
+			//var Z = currentline.split(Y).pop();
+			
+			
+			//var ss= "<pre>aaaa\nbbb\nccc</pre>ddd";
+			//var arr= ss.match( /<pre[^\0]*?<\/pre>/gm );
+			//alert(arr);     //Working
+			
+			
+			//var stripped = currentline.replace(/[\s\S]+PHOTO;ENCODING=BASE64;JPEG:[\r\n]+/gi, '');
+			//var addressLines = stripped.trim().split(/[\r\n]+/);
+			
+			//var ss=currentline;
+			//var arr=ss.match(/PHOTO;ENCODING=BASE64;JPEG:[^\0]*?END:VCARD/gm);
+			var keka = i;
+			following = "";
+			if (!currentline.includes('ENCODING'))
+			{
+			while (photobool == 0)
+			{
+			following = vcardintoarray[keka + getallphotolines];
+			photochunk = photochunk + following;
+			//if (following.includes('END:VCARD'))
+
+			
+			photobool = 1;
+			getallphotolines++;
+	        }
+			getallphotolines = 0;
+			photobool = 0;
+			var photochunkstring = photochunk.toString();
+			var b4 = photochunkstring.split(':')[0];
+			var phase1 = photochunkstring.replace(b4,'');
+			var phase2 = phase1.replace(":", "");
+			//var phase2 = phase1.replace('END:VCARD','');
+			//var phase3 = phase2.replace('/\s/g','');
+			allphotosarray[onlynamesvar] = phase2;
+			photochunk = [];
+			}
+			
+			
+			
+			if (currentline.includes('ENCODING'))
+			{
+			while (photobool == 0)
+			{
+			following = vcardintoarray[keka + getallphotolines];
+			if (skipphotoline1 > 0) 
+			if (following.includes(';') | following.includes(':'))
+			{
+			skipphotolinelast = 1;
+			photobool = 1;
+			}
+			if (skipphotolinelast == 0)
+			{
+			photochunk = photochunk + following;
+			var photochunktemp = photochunk.toString();
+			}
+			//if (following.includes('END:VCARD'))
+	
+
+    
+			getallphotolines++;
+			skipphotoline1++;
+	        }
+			getallphotolines = 0;
+			photobool = 0;
+			var photochunkstring = photochunk.toString();
+			var b4 = photochunkstring.split(':')[0];
+			var phase1 = photochunkstring.replace(b4,'');
+			var phase2 = phase1.replace(":", "");
+			var phase3 = phase2.replace('/\s/g','');
+			phase4 = "data:image;base64," + phase3;
+			allphotosarray[onlynamesvar] = phase4;
+			photochunk = [];
+
+			}
+			
+			skipphotoline1 = 0;
+			skipphotolinelast = 0;
+
+			//var Z = X.slice(X.indexOf(Y) + Y.length);//var Z = X.replace(new RegExp('.*' + Y), '');
+		}
+		
+		if (currentline.startsWith(title) == true)
+		{
+			
+			var titletemp = currentline.replace('TITLE:', '');
+			var titletemp2 = titletemp.replaceAll(';', ' ');
+			alltitles[onlynamesvar] = titletemp2;
+			
+
+
+			
+			
+			
+		}
+		
+		if (currentline.startsWith(gender) == true)
+		{
+			
+			var gendertemp = currentline.replace('GENDER:', '');
+			var gendertemp2 = gendertemp.replaceAll(';', ' ');
+			allgenders[onlynamesvar] = gendertemp2;
+			
+
+
+			
+			
+			
+		}
+		if (currentline.startsWith(birthday) == true)
+		{
+			
+			var birthdaytemp = currentline.replace('BDAY:', '');
+			var birthdaytemp2 = birthdaytemp.replaceAll(';', ' ');
+			allbirthdays[onlynamesvar] = birthdaytemp2;
+			
+
+
+			
+			
+			
+		}
+		
+		//GET ALL EMAILS
+		if (currentline.startsWith(emailcode) == true)
+		{
+			var b4 = currentline.split(':')[0];
+			var emailtemp = currentline.replace(b4, '');
+			var emailtemp1 = emailtemp.replace(":", "");
+			var emailtemp2 = emailtemp1.replaceAll(';', ' ');
+			allemailarray[onlynamesvar] = emailtemp2;
+			
+
+
+			
+			
+			
+		}	
+		//GET ALL URLS
+		if (currentline.startsWith(url) == true)
+		{
+			var b4 = currentline.split(':')[0];
+			var urltemp = currentline.replace(b4, '');
+			var urltemp1 = urltemp.replace(":", "");
+			var urltemp2 = urltemp1.replaceAll(';', ' ');
+			allurls[onlynamesvar] = urltemp2;
+			
+
+
+			
+			
+			
+		}	
+		
+		
+		
+		//GET ALL HOME ADDRESSES
+
+		if (currentline.startsWith(addresshomecode) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var hometemp = currentline.replace(b4, '');
+			var hometemp1 = hometemp.replace(":", "");
+			var hometemp2 = hometemp1.replaceAll(';', ' ');
+			alladdresshomearray[onlynamesvar] = hometemp2;
+
+
+
+			
+			
+			
+		}	
+
+
+		//GET ALL WORK ADDRESSES
+	
+		if (currentline.startsWith(addressworkcode) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var worktemp = currentline.replace(b4, '');
+			var worktemp1 = worktemp.replace(":", "");
+			var worktemp2 = worktemp1.replaceAll(';', ' ');
+			alladdressworkarray[onlynamesvar] = worktemp2;
+
+
+			
+			
+			
+		}	
+
+		
+		//GET ALL PHONES NUMBERS
+
+		if (currentline.startsWith(phone1code) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var phonetemp = currentline.replace(b4, '');
+			var phonetemp1 = phonetemp.replace(":","");
+			allphonesarray[onlynamesvar] = phonetemp1;
+
+
+
+			
+			
+			
+		}
+
+
+
+		
+		//GET ALL 2ND PHONES NUMBERS
+
+		if (currentline.startsWith(phone2code) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var phonetemp2 = currentline.replace(b4, '');
+			var phonetemp21 = phonetemp2.replace(":","");
+			allphones2array[onlynamesvar] = phonetemp21;
+		
+			
+			
+		}
+
+		
+		//GET ALL VOICE PHONE NUMBERS 
+
+		if (currentline.startsWith(phone3code) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var phonetemp3 = currentline.replace(b4, '');
+			var phonetemp31 = phonetemp3.replace(":","");
+			allvoicesarray[onlynamesvar] = phonetemp31;
+			
+		}		
+		
+		//GET ALL CELL NUMBERS
+
+		if (currentline.startsWith(cell1code) == true)
+		{
+		    var b4 = currentline.split(':')[0];
+			var celltemp = currentline.replace(b4, '');
+			var celltemp1 = celltemp.replace(":","");
+			allcellsarray[onlynamesvar] = celltemp1;
+		
+		}
+
+		//GET ALL CELL 2 NUMBERS
+
+    
+		
+		}
+		
+	
+		for (;keeptrackofnewcontacts < onlynamesvar + 1; keeptrackofnewcontacts++)
+		{
+	 
+		buildtable = buildtable + "<tr id='id" + keeptrackofnewcontacts + "'><td id='photo' contenteditable='false'>" + 
+		"<input id='ava" + keeptrackofnewcontacts + "' type='file' style='display:none;max-width:118px !important;' onchange='changephoto(this.files[0]," + keeptrackofnewcontacts +");' accept='image/*'><img onclick='document.getElementById(\"ava" + keeptrackofnewcontacts + "\").click();' src='" + allphotosarray[keeptrackofnewcontacts] + "' width='64' height='64' id='pic" + keeptrackofnewcontacts + "'>" + "</td><td  contenteditable='true' style='background: linear-gradient(-135deg,#000 5px,#fff 0); color: #000 !important;'>" +
+		allnamesarray[keeptrackofnewcontacts] + "</td><td contenteditable='true' >" + 
+		alltitles[keeptrackofnewcontacts] + "</td><td contenteditable='true' >" + 
+		allgenders[keeptrackofnewcontacts] + "</td><td contenteditable='true' >" + 
+		allbirthdays[keeptrackofnewcontacts] + "</td><td contenteditable='true' >" + 
+		allemailarray[keeptrackofnewcontacts] + "</td><td contenteditable='true' >" + 
+		allurls[keeptrackofnewcontacts] + "</td><td contenteditable='true' >" + 
+		allcellsarray[keeptrackofnewcontacts] + "</td><td contenteditable='true' >" + 
+		allphonesarray[keeptrackofnewcontacts] + "</td><td contenteditable='true' >" + 	
+		allphones2array[keeptrackofnewcontacts] + "</td><td contenteditable='true' >" + 
+		allvoicesarray[keeptrackofnewcontacts] + "</td><td contenteditable='true' >" +
+		alladdresshomearray[keeptrackofnewcontacts] + "</td><td contenteditable='true' >" + 
+		alladdressworkarray[keeptrackofnewcontacts] + 
+		"</td><td>" + "<button style='width:100%;height:100%' onclick='delContactPress(" + keeptrackofnewcontacts + ")'>DELETE</button>" + "</td></tr>";
+		
+		//keeptrackofnewcontacts = k;
+		}
+		
+		document.getElementById("output").innerHTML += buildtable;
+		/*
+		var newTableObject = document.getElementById('myTable');
+		sorttable.makeSortable(newTableObject);
+		*/
+		//END OF APP
+			}
+		fr.readAsText(this.files[0]);	
+
+        });
+
+     /*
+	 
+	     <script type="text/javascript">
+        document.getElementById('inputfile')
+            .addEventListener('change', function() {
+              
+            var fr=new FileReader();
+            fr.onload=function(){
+                document.getElementById('output')
+                        .textContent=fr.result;
+            }
+              
+            fr.readAsText(this.files[0]);
+        })
+		
+		*/
+    </script>
+</html>
+<script>
+const fileDataURL = file => new Promise((resolve,reject) => {
+    let fr = new FileReader();
+    fr.onload = () => resolve( fr.result);
+    fr.onerror = reject;
+    fr.readAsDataURL( file)
+});
+function changephoto(file, thispicture) {
+    var proper = "pic" + thispicture;
+	var getmainstring = "";
+    fileDataURL(file)
+    .then( data => (document.getElementById(proper).src = data));
+
+}
+
+function saveit() {
+
+
+
+  let card = prompt("Enter a name for your VCF file", "");
+  var newcardname = card;
+  if (card != null) {
+   
+
+//var diff = (keeptrackofnewcontacts - k);
+//var latest = diff + 2;
+var allmycontacts = 1;
+for (x = 0; x < howmanylines; x++)
+{
+	    currentline = upper[x];
+        if (currentline.includes("BEGIN"))
+		allmycontacts++;
+}
+
+var arraycompletestring = "";
+var readytosave = "";
+var getridofsemi = "";
+
+for (i = 1; i < keeptrackofnewcontacts; i++)
+{
+		
+      for (j = 0; j < 13; j++)
+	  {
+			if (j == 0)
+			{
+			var namespec = "BEGIN:VCARD^VERSION:2.1^PHOTO;ENCODING=BASE64;JPEG:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+            //var mybase64image = savecurrentname.replace('<img src="data:image;base64,', '');
+			//var mybase64image2 = mybase64image.replace('" width="64" height="64">', '');
+			var b4 = savecurrentname.split('base64,')[0];
+			var b5 = savecurrentname.replace(b4, '');
+			var b6 = b5.replace('base64,', '');
+			var b7 = b6.split('" width')[0];
+			var namef = namespec + b7 + "^";
+	        arraycompletestring += namef;
+			}
+			if (j == 1)
+			{
+			var namespec = "N:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 2)
+			{
+			var namespec = "TITLE:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 3)
+			{
+			var namespec = "GENDER:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 4)
+			{
+			var namespec = "BDAY:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 5)
+			{
+			var namespec = "EMAIL:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 6)
+			{
+			var namespec = "URL:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 7)
+			{
+			var namespec = "TEL;CELL:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 8)
+			{
+			var namespec = "TEL;HOME:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 9)
+			{
+			var namespec = "TEL;WORK:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 10)
+			{
+			var namespec = "TEL;VOICE:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 11)
+			{
+			var namespec = "ADR;HOME:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^";
+			arraycompletestring += namef;
+			}
+			if (j == 12)
+			{
+			var namespec = "ADR;WORK:";
+			var currtableloc = "tr:eq(" + i + ")";			
+			var currtableloc2 = "td:eq(" + j + ")";
+			var savecurrentname = $("#myTable").find(currtableloc).find(currtableloc2).html();
+			var namef = namespec + savecurrentname + "^END:VCARD^";
+			arraycompletestring += namef;
+			}
+			
+			
+	  }
+
+}
+
+
+getridofsemi = arraycompletestring.replaceAll("^", '\n');
+readytosave = getridofsemi;
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+};
+
+var local = moment().format();
+var myfilenamealways = card + "_" + local + ".vcf";
+download(myfilenamealways,readytosave);
+	
+  }
+
+
+};
+
+function delContact() {
+
+
+  if (deletebool%2 == 0)
+  {
+
+  
+  document.getElementById("del").innerHTML = "Delete (On)";
+  }
+  if (deletebool%2 != 0)
+  {
+  document.getElementById("del").innerHTML = "Delete (Off)";
+  
+  }
+  
+  deletebool++;
+  /*
+  let person = prompt("DELETE CONTACT ID", "");
+  var exactperson = "#id" + person;
+  if (person != null) {
+   
+   // $(exactperson).empty();
+      $(exactperson).remove();
+	
+  }*/
+
+}
+
+function delContactPress(id) {
+  if (deletebool%2 != 0)
+  {
+var exactperson = "#id" + id;
+$(exactperson).remove();
+  }
+
+}
+</script>
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 1; i < table.rows.length; i++) 
+  {
+      tr[i].style.display = "none";
+      for (j = 0; j < 15; j++)
+	  {
+	     var findthis = "td:nth-child(" + j + ")";
+		 var getcurrenttd = $('#myTable tr').eq(i).find(findthis).text();
+	     if (getcurrenttd.includes(filter))
+		 {
+         tr[i].style.display = "";
+		 }
+      } 
+   }       
+}
+</script>
