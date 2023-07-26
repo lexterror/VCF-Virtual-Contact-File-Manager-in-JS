@@ -27,7 +27,7 @@ Features:<br><br>
 -Create a VCF from scratch!!!<br><br>
 
 
-What needs to be done: Fix when creating a new vcf file and loading a vcf file. Will be fixed soon!
+What needs to be done: Everything should be working now!
 
 
 
